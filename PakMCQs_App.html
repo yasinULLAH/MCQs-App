@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PakMCQs Interactive Study App</title>
+    <style>
+        :root {
+            --bg-color: #f4f7f9;
+            --card-bg-color: #ffffff;
+            --text-color: #2c3e50;
+            --question-color: #212529;
+            --correct-color: #198754;
+            --border-color: #dee2e6;
+            --shadow-color: rgba(0, 0, 0, 0.05);
+            --header-bg: #ffffff;
+            --accent-color: #007bff;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body.dark-mode {
+            --bg-color: #121212;
+            --card-bg-color: #1e1e1e;
+            --text-color: #e0e0e0;
+            --question-color: #ffffff;
+            --correct-color: #28a745;
+            --border-color: #444;
+            --shadow-color: rgba(0, 0, 0, 0.2);
+            --header-bg: #1e1e1e;
+            --accent-color: #0d6efd;
+        }
+
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background-color: var(--header-bg);
+            padding: 15px 30px;
+            box-shadow: 0 2px 10px var(--shadow-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            gap: 20px;
+        }
+
+        #search-input {
+            width: 100%;
+            padding: 10px 15px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid var(--border-color);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+
+        #theme-toggle-btn {
+            padding: 10px 15px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 24px;
+        }
+
+        main {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .mcq-block {
+            background-color: var(--card-bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px var(--shadow-color);
+        }
+
+        .question {
+            font-size: 1.1em;
+            font-weight: 600;
+            color: var(--question-color);
+            margin-bottom: 15px;
+        }
+
+        .options ul {
+            list-style-type: none;
+            padding-left: 5px;
+            margin: 0;
+        }
+
+        .options li {
+            padding: 8px;
+            border-radius: 5px;
+        }
+
+        .correct-answer {}
+
+        .revealed .correct-answer {
+            background-color: rgba(25, 135, 84, 0.1);
+            color: var(--correct-color);
+            font-weight: bold;
+        }
+
+        .show-answer-btn {
+            margin-top: 15px;
+            padding: 8px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-weight: 500;
+        }
+
+        #pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            padding: 20px;
+            gap: 5px;
+        }
+
+        #pagination button {
+            padding: 10px 15px;
+            cursor: pointer;
+            border: 1px solid var(--border-color);
+            background-color: var(--card-bg-color);
+            color: var(--text-color);
+        }
+
+        #pagination button.active {
+            background-color: var(--accent-color);
+            color: var(--card-bg-color);
+            font-weight: bold;
+            border-color: var(--accent-color);
+        }
+
+        #status-bar {
+            text-align: center;
+            padding: 10px;
+            color: #6c757d;
+        }
+
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5em;
+            z-index: 2000;
+        }
+
+        .options:not(.answered) li {
+            cursor: pointer;
+        }
+
+        .options:not(.answered) li:hover {
+            background-color: var(--border-color);
+        }
+
+        li.correct {
+            background-color: rgba(25, 135, 84, 0.2);
+            color: var(--correct-color);
+            font-weight: bold;
+        }
+
+        li.incorrect {
+            background-color: rgba(220, 53, 69, 0.15);
+            border: 1px solid rgba(220, 53, 69, 0.5);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="loading-overlay" id="loading-overlay">
+        <p>Loading app...</p>
+    </div>
+
+    <header class="header">
+        <div class="controls">
+            <input type="search" id="search-input" placeholder="Type to search questions...">
+            <button id="theme-toggle-btn" title="Toggle Dark/Light Mode">🌙</button>
+        </div>
+    </header>
+
+    <main id="mcq-container"></main>
+    <div id="status-bar"></div>
+    <nav id="pagination"></nav>
+
+<script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        // --- CONFIGURATION ---
+        const DB_NAME = 'PakMCQsDB';
+        const STORE_NAME = 'mcqs';
+        const DB_VERSION = 1;
+        const DATA_URL = 'https://raw.githubusercontent.com/ai-PakMCQs/PakMCQs-Data/main/mcqs_data.json';
+        const MCQS_PER_PAGE = 50;
+
+        // --- DOM ELEMENT REFERENCES (Defined once at the top) ---
+        const loadingOverlay = document.getElementById('loading-overlay');
+        const loadingText = loadingOverlay.querySelector('p');
+        const mcqContainer = document.getElementById('mcq-container');
+        const paginationContainer = document.getElementById('pagination');
+        const searchInput = document.getElementById('search-input');
+        const statusBar = document.getElementById('status-bar');
+        const themeToggleBtn = document.getElementById('theme-toggle-btn');
+        
+        let db;
+        let totalQuestions = 0;
+
+        // --- DATABASE LOGIC ---
+        function openDB() {
+            return new Promise((resolve, reject) => {
+                const request = indexedDB.open(DB_NAME, DB_VERSION);
+                request.onerror = () => reject("Error opening DB");
+                request.onsuccess = (event) => resolve(event.target.result);
+                request.onupgradeneeded = (event) => {
+                    let db = event.target.result;
+                    if (!db.objectStoreNames.contains(STORE_NAME)) {
+                        const store = db.createObjectStore(STORE_NAME, { keyPath: 'id' });
+                        store.createIndex('question_idx', 'question', { unique: false });
+                    }
+                };
+            });
+        }
+
+        async function populateDB() {
+            loadingText.textContent = 'Setting up for first use... Fetching data...';
+            const response = await fetch(DATA_URL);
+            const mcqs = await response.json();
+            
+            loadingText.textContent = 'Populating local database... Please wait.';
+            const transaction = db.transaction(STORE_NAME, 'readwrite');
+            const store = transaction.objectStore(STORE_NAME);
+            store.clear();
+
+            for (const mcq of mcqs) { store.put(mcq); }
+
+            return new Promise((resolve) => {
+                transaction.oncomplete = () => {
+                    localStorage.setItem('db_version', DB_VERSION);
+                    localStorage.setItem('total_questions', mcqs.length);
+                    totalQuestions = mcqs.length;
+                    resolve();
+                };
+            });
+        }
+        
+         async function getFilteredData(page, query) {
+            return new Promise((resolve) => {
+                const transaction = db.transaction(STORE_NAME, 'readonly');
+                const store = transaction.objectStore(STORE_NAME);
+                const results = [];
+                const lowerQuery = query.toLowerCase();
+
+                store.openCursor().onsuccess = (event) => {
+                    const cursor = event.target.result;
+                    if(cursor) {
+                        if(cursor.value.question.toLowerCase().includes(lowerQuery)) {
+                            results.push(cursor.value);
+                        }
+                        cursor.continue();
+                    } else {
+                        const startIndex = (page - 1) * MCQS_PER_PAGE;
+                        const endIndex = startIndex + MCQS_PER_PAGE;
+                        resolve({
+                            data: results.slice(startIndex, endIndex),
+                            total: results.length
+                        });
+                    }
+                };
+            });
+        }
+
+        // --- UI RENDERING ---
+        function renderMCQs(mcqs) {
+            mcqContainer.innerHTML = '';
+            for (const mcq of mcqs) {
+                let optionsHTML = mcq.options.map(opt => 
+                    `<li class="${opt.correct ? 'correct-answer' : ''}">${opt.text}</li>`
+                ).join('');
+
+                mcqContainer.innerHTML += `
+                    <div class="mcq-block">
+                        <p class="question">${mcq.id}. ${mcq.question}</p>
+                        <div class="options"><ul>${optionsHTML}</ul></div>
+                    </div>
+                `;
+            }
+        }
+
+        function renderPagination(totalItems, page) {
+            paginationContainer.innerHTML = '';
+            const pageCount = Math.ceil(totalItems / MCQS_PER_PAGE);
+            if (pageCount <= 1) return;
+
+            let start = Math.max(1, page - 2);
+            let end = Math.min(pageCount, page + 2);
+            
+            const buttons = [];
+            if(page > 1) buttons.push(`<button data-page="${page-1}">«</button>`);
+            if(start > 1) buttons.push(`<button data-page="1">1</button><button disabled>...</button>`);
+            for(let i=start; i<=end; i++) {
+                buttons.push(`<button class="${i === page ? 'active' : ''}" data-page="${i}">${i}</button>`);
+            }
+            if(end < pageCount) buttons.push(`<button disabled>...</button><button data-page="${pageCount}">${pageCount}</button>`);
+            if(page < pageCount) buttons.push(`<button data-page="${page+1}">»</button>`);
+            
+            paginationContainer.innerHTML = buttons.join('');
+        }
+
+        async function updateView(page = 1, query = '') {
+            // Step 1: Save the current page to localStorage
+            localStorage.setItem('currentPage', page);
+
+            const {data, total} = await getFilteredData(page, query);
+            renderMCQs(data);
+            renderPagination(total, page);
+            const startItem = (page - 1) * MCQS_PER_PAGE + 1;
+            const endItem = startItem + data.length - 1;
+            statusBar.textContent = total > 0 ? `Showing ${startItem}-${endItem} of ${total} questions.` : 'No questions found.';
+        }
+
+        // --- INITIALIZATION & EVENT LISTENERS ---
+        async function initializeApp() {
+            try {
+                db = await openDB();
+                const storedVersion = parseInt(localStorage.getItem('db_version'));
+                if (storedVersion !== DB_VERSION) {
+                    await populateDB();
+                } else {
+                    totalQuestions = parseInt(localStorage.getItem('total_questions')) || 0;
+                }
+                
+                // Step 2: Load the saved page on startup, or default to 1
+                const savedPage = parseInt(localStorage.getItem('currentPage')) || 1;
+                await updateView(savedPage, searchInput.value);
+
+                loadingOverlay.style.display = 'none';
+
+            } catch (error) {
+                loadingText.textContent = 'Error: Could not initialize the application.';
+                console.error(error);
+            }
+        }
+        
+        // --- Assign all event listeners once ---
+        searchInput.addEventListener('input', () => updateView(1, searchInput.value));
+        
+        paginationContainer.addEventListener('click', (e) => {
+            if (e.target.tagName === 'BUTTON' && e.target.dataset.page) {
+                updateView(parseInt(e.target.dataset.page), searchInput.value);
+            }
+        });
+        
+        mcqContainer.addEventListener('click', (e) => {
+            if (e.target.tagName === 'LI' && e.target.closest('.options')) {
+                const li = e.target;
+                const optionsDiv = li.closest('.options');
+
+                if (optionsDiv.classList.contains('answered')) return;
+                optionsDiv.classList.add('answered');
+
+                const correctLi = optionsDiv.querySelector('.correct-answer');
+                correctLi.classList.add('correct');
+
+                if (!li.classList.contains('correct-answer')) {
+                    li.classList.add('incorrect');
+                }
+            }
+        });
+        
+        themeToggleBtn.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            themeToggleBtn.textContent = isDark ? '☀️' : '🌙';
+        });
+
+        // --- Set initial theme and start the app ---
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+            themeToggleBtn.textContent = '☀️';
+        }
+
+        initializeApp();
+    });
+</script>
+</body>
+
+</html>

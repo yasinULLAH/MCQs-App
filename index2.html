@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PakMCQs Pro Study Platform</title>
+    <style>
+        :root {
+            --bg-color: #f0f2f5;
+            --card-bg-color: #ffffff;
+            --text-color: #1d2129;
+            --question-color: #050505;
+            --correct-color: #31a24c;
+            --incorrect-color: #fa383e;
+            --bookmark-color: #1877f2;
+            --border-color: #dddfe2;
+            --shadow-color: rgba(0, 0, 0, 0.08);
+            --header-bg: #ffffff;
+            --accent-color: #1877f2;
+            --accent-hover-color: #166fe5;
+            --font-main: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body.dark-mode {
+            --bg-color: #18191a;
+            --card-bg-color: #242526;
+            --text-color: #e4e6eb;
+            --question-color: #e4e6eb;
+            --correct-color: #45bd62;
+            --incorrect-color: #ff5252;
+            --bookmark-color: #2e89ff;
+            --border-color: #3a3b3c;
+            --shadow-color: rgba(0, 0, 0, 0.3);
+            --header-bg: #242526;
+            --accent-color: #2e89ff;
+            --accent-hover-color: #4a9aff;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-main);
+            margin: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        /* --- HEADER & CONTROLS --- */
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background-color: var(--header-bg);
+            padding: 10px 20px;
+            box-shadow: 0 2px 5px var(--shadow-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            gap: 15px;
+        }
+
+        #search-input {
+            flex-grow: 1;
+            padding: 10px 15px;
+            font-size: 16px;
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        #search-input:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent-color) 30%, transparent);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .icon-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            color: var(--text-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.2s;
+            position: relative;
+        }
+
+        .icon-btn:hover {
+            background-color: var(--border-color);
+        }
+
+        .icon-btn svg {
+            width: 24px;
+            height: 24px;
+            fill: currentColor;
+        }
+
+        .icon-btn.active {
+            color: var(--accent-color);
+        }
+
+        .filter-container {
+            position: relative;
+        }
+
+        #filter-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: var(--card-bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            box-shadow: 0 4px 12px var(--shadow-color);
+            padding: 5px;
+            z-index: 10;
+            margin-top: 10px;
+            width: 200px;
+        }
+
+        #filter-dropdown.show {
+            display: block;
+        }
+
+        .filter-option {
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 6px;
+            font-weight: 500;
+        }
+
+        .filter-option:hover {
+            background-color: var(--bg-color);
+        }
+
+        .filter-option.active {
+            background-color: color-mix(in srgb, var(--accent-color) 15%, transparent);
+            color: var(--accent-color);
+        }
+
+        /* --- MAIN & QUIZ VIEWS --- */
+        main,
+        #quiz-view {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 20px auto;
+        }
+
+        #quiz-view {
+            display: none;
+        }
+
+        .mcq-block {
+            background-color: var(--card-bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px var(--shadow-color);
+            transition: transform 0.2s, box-shadow 0.2s;
+            position: relative;
+        }
+
+        .mcq-block:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px var(--shadow-color);
+        }
+
+        .question {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: var(--question-color);
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+
+        .options ul {
+            list-style-type: none;
+            padding-left: 0;
+            margin: 0;
+            display: grid;
+            gap: 10px;
+        }
+
+        .options li {
+            padding: 12px 15px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            transition: all 0.2s ease-in-out;
+        }
+
+        .options:not(.answered) li {
+            cursor: pointer;
+        }
+
+        .options:not(.answered) li:hover {
+            border-color: var(--accent-color);
+            background-color: color-mix(in srgb, var(--accent-color) 10%, transparent);
+        }
+
+        li.correct {
+            background-color: color-mix(in srgb, var(--correct-color) 15%, transparent);
+            border-color: var(--correct-color);
+            color: var(--correct-color);
+            font-weight: bold;
+        }
+
+        li.incorrect {
+            background-color: color-mix(in srgb, var(--incorrect-color) 15%, transparent);
+            border-color: var(--incorrect-color);
+        }
+
+        .bookmark-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+        }
+
+        .bookmark-btn.bookmarked svg {
+            color: var(--bookmark-color);
+            fill: var(--bookmark-color);
+        }
+
+        .explanation {
+            background-color: var(--bg-color);
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 20px;
+            border-left: 4px solid var(--accent-color);
+            opacity: 0;
+            animation: fadeIn 0.5s forwards;
+        }
+
+        .explanation p {
+            margin: 0;
+        }
+
+        .explanation strong {
+            color: var(--accent-color);
+        }
+
+        #quiz-progress-header {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.2em;
+            font-weight: 500;
+            color: var(--text-color);
+        }
+
+        /* --- MODALS --- */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 3000;
+            animation: fadeIn 0.3s;
+        }
+
+        .modal.visible {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--card-bg-color);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+            animation: slideIn 0.3s;
+        }
+
+        .modal-close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+
+        .modal h2 {
+            margin-top: 0;
+            color: var(--question-color);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .modal-actions button {
+            flex-grow: 1;
+            padding: 12px 15px;
+            font-size: 1em;
+            font-weight: 500;
+            border-radius: 8px;
+            cursor: pointer;
+            border: 1px solid var(--border-color);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: all 0.2s;
+        }
+
+        .modal-actions button:hover {
+            border-color: var(--accent-color);
+        }
+
+        #reset-btn,
+        .btn-danger {
+            background-color: var(--incorrect-color);
+            color: white;
+            border-color: var(--incorrect-color);
+        }
+
+        #reset-btn:hover,
+        .btn-danger:hover {
+            background-color: color-mix(in srgb, var(--incorrect-color) 85%, black);
+        }
+
+        .btn-primary {
+            background-color: var(--accent-color);
+            color: white;
+            border-color: var(--accent-color);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-hover-color);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .stat-item {
+            background-color: var(--bg-color);
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-item .value {
+            font-size: 2em;
+            font-weight: bold;
+        }
+
+        .stat-item .label {
+            font-size: 0.9em;
+            color: #8a8d91;
+        }
+
+        /* --- UTILITIES & OTHERS --- */
+        #pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            padding: 20px;
+            gap: 8px;
+        }
+
+        #pagination button {
+            padding: 10px 15px;
+            cursor: pointer;
+            border: 1px solid var(--border-color);
+            background-color: var(--card-bg-color);
+            color: var(--text-color);
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+
+        #pagination button:hover:not(:disabled) {
+            border-color: var(--accent-color);
+            background-color: var(--bg-color);
+        }
+
+        #pagination button.active {
+            background-color: var(--accent-color);
+            color: white;
+            font-weight: bold;
+            border-color: var(--accent-color);
+        }
+
+        #pagination button:disabled {
+            opacity: 0.5;
+            cursor: default;
+        }
+
+        #status-bar {
+            text-align: center;
+            padding: 10px;
+            color: #8a8d91;
+        }
+
+        #back-to-top-btn {
+            position: fixed;
+            bottom: -50px;
+            right: 20px;
+            z-index: 500;
+            opacity: 0;
+            transition: bottom 0.3s, opacity 0.3s;
+        }
+
+        #back-to-top-btn.visible {
+            bottom: 20px;
+            opacity: 1;
+        }
+
+        #toast-container {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 4000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            pointer-events: none;
+        }
+
+        .toast {
+            padding: 12px 20px;
+            border-radius: 8px;
+            color: white;
+            font-weight: 500;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+            animation: toast-in 0.5s forwards;
+        }
+
+        .toast.success {
+            background-color: #31a24c;
+        }
+
+        .toast.error {
+            background-color: #fa383e;
+        }
+
+        .toast.info {
+            background-color: #1877f2;
+        }
+
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 5000;
+            color: white;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-20px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes toast-in {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Main UI Elements -->
+    <div class="loading-overlay" id="loading-overlay">
+        <div class="spinner"></div>
+        <p>Initializing Platform...</p>
+    </div>
+    <header class="header">
+        <div class="controls">
+            <input type="search" id="search-input" placeholder="Search questions...">
+            <div class="header-actions">
+                <div class="filter-container">
+                    <button id="filter-btn" class="icon-btn" title="Filter Questions (F)"><svg viewBox="0 0 24 24">
+                            <path
+                                d="M14,12V19.88C14.04,20.18 13.94,20.5 13.71,20.71C13.32,21.1 12.69,21.1 12.3,20.71L10.29,18.7C10.06,18.47 9.96,18.16 10,17.88V12H14M17,3H7C6.45,3 6,3.45 6,4V6H18V4C18,3.45 17.55,3 17,3M18,8H6L12,14L18,8Z" />
+                        </svg></button>
+                    <div id="filter-dropdown">
+                        <div class="filter-option" data-filter="all">Show All</div>
+                        <div class="filter-option" data-filter="unanswered">Unanswered</div>
+                        <div class="filter-option" data-filter="bookmarked">Bookmarked</div>
+                        <div class="filter-option" data-filter="correct">Correct</div>
+                        <div class="filter-option" data-filter="incorrect">Incorrect</div>
+                    </div>
+                </div>
+                <button id="quiz-btn" class="icon-btn" title="Start a Quiz (Q)"><svg viewBox="0 0 24 24">
+                        <path
+                            d="M19,19H5V5H19M19,3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3M13.9,15.5H15.5V17H13.9M13.9,7H15.5V14H13.9M8.5,17H12.4V15.5H10.1V14H12.4V12.5H10.1V11H12.4V9.5H8.5V11H10.9V12.5H8.5V14H10.9V15.5H8.5V17Z" />
+                    </svg></button>
+                <button id="stats-btn" class="icon-btn" title="Show Statistics (S)"><svg viewBox="0 0 24 24">
+                        <path
+                            d="M16,11.78L20.24,4.45L21.97,5.45L16.74,14.5L10.23,10.5L5.45,18.16L4.22,17.15L10.23,8.5L16,11.78Z" />
+                    </svg></button>
+                <button id="theme-toggle-btn" class="icon-btn" title="Toggle Theme (T)"><svg viewBox="0 0 24 24">
+                        <path
+                            d="M12 2A10 10 0 0 0 2 12A10 10 0 0 0 12 22A10 10 0 0 0 22 12A10 10 0 0 0 12 2M12 4A8 8 0 0 1 20 12A8 8 0 0 1 12 20V4Z" />
+                    </svg></button>
+            </div>
+        </div>
+    </header>
+    <main id="main-view">
+        <div id="mcq-container"></div>
+        <div id="status-bar"></div>
+        <nav id="pagination"></nav>
+    </main>
+    <div id="quiz-view">
+        <h2 id="quiz-progress-header"></h2>
+        <div id="quiz-mcq-container"></div>
+    </div>
+    <button id="back-to-top-btn" class="icon-btn btn-primary" title="Back to Top"><svg viewBox="0 0 24 24">
+            <path d="M13,20H11V8L5.5,13.5L4.08,12.08L12,4.16L19.92,12.08L18.5,13.5L13,8V20Z" />
+        </svg></button>
+    <div id="toast-container"></div>
+
+    <!-- All Modals -->
+    <div class="modal" id="stats-modal"><!-- Content injected by JS --></div>
+    <div class="modal" id="quiz-setup-modal"><!-- Content injected by JS --></div>
+    <div class="modal" id="quiz-results-modal"><!-- Content injected by JS --></div>
+
+    <script>
+        // Inject modal HTML to keep the body clean
+        document.getElementById('stats-modal').innerHTML = `<div class="modal-content"><button class="icon-btn modal-close-btn" title="Close"><svg viewBox="0 0 24 24"><path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z"/></svg></button><h2>Your Progress</h2><div class="stats-grid"><div class="stat-item"><div class="value" id="answered-stat">0</div><div class="label">Answered</div></div><div class="stat-item"><div class="value" id="correct-stat" style="color:var(--correct-color)">0</div><div class="label">Correct</div></div><div class="stat-item"><div class="value" id="incorrect-stat" style="color:var(--incorrect-color)">0</div><div class="label">Incorrect</div></div><div class="stat-item"><div class="value" id="accuracy-stat">0%</div><div class="label">Accuracy</div></div></div><div class="modal-actions"><button id="reset-btn" class="btn-danger">Reset All Data</button></div></div>`;
+        document.getElementById('quiz-setup-modal').innerHTML = `<div class="modal-content"><button class="icon-btn modal-close-btn" title="Close"><svg viewBox="0 0 24 24"><path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z"/></svg></button><h2>Quiz Setup</h2><p>Select the number of questions for your quiz.</p><div class="modal-actions"><button class="start-quiz-btn btn-primary" data-count="10">10 Questions</button><button class="start-quiz-btn btn-primary" data-count="25">25 Questions</button><button class="start-quiz-btn btn-primary" data-count="50">50 Questions</button></div></div>`;
+        document.getElementById('quiz-results-modal').innerHTML = `<div class="modal-content"><button class="icon-btn modal-close-btn" title="Close"><svg viewBox="0 0 24 24"><path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z"/></svg></button><h2>Quiz Results</h2><div class="stats-grid"><div class="stat-item"><div class="value" id="quiz-score">0/0</div><div class="label">Score</div></div><div class="stat-item"><div class="value" id="quiz-accuracy">0%</div><div class="label">Accuracy</div></div></div><div class="modal-actions"><button class="modal-close-btn btn-primary">Finish</button></div></div>`;
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            // --- CONFIG & STATE ---
+            const CONFIG = {
+                DB_NAME: 'PakMCQsDB', STORES: { MCQS: 'mcqs', ANSWERS: 'answers', BOOKMARKS: 'bookmarks' }, DB_VERSION: 3,
+                DATA_URL: 'mcqs_data.json', MCQS_PER_PAGE: 25,
+            };
+            const appState = { currentPage: 1, filter: 'all', query: '' };
+            const quizState = { active: false, questions: [], answers: [], currentIndex: 0 };
+
+            // --- DOM ELEMENTS ---
+            const $ = (selector) => document.querySelector(selector);
+            const $$ = (selector) => document.querySelectorAll(selector);
+            const elements = {
+                loading: $('#loading-overlay'), loadingText: $('#loading-overlay p'), mainView: $('#main-view'), quizView: $('#quiz-view'),
+                mcqContainer: $('#mcq-container'), quizMcqContainer: $('#quiz-mcq-container'), quizProgress: $('#quiz-progress-header'),
+                pagination: $('#pagination'), searchInput: $('#search-input'), statusBar: $('#status-bar'),
+                filterBtn: $('#filter-btn'), filterDropdown: $('#filter-dropdown'), backToTopBtn: $('#back-to-top-btn'),
+                toastContainer: $('#toast-container'), modals: { stats: $('#stats-modal'), quizSetup: $('#quiz-setup-modal'), quizResults: $('#quiz-results-modal') },
+            };
+
+            let db;
+
+            // --- DATABASE OPERATIONS ---
+            const dbOps = {
+                open: () => new Promise((resolve, reject) => {
+                    const req = indexedDB.open(CONFIG.DB_NAME, CONFIG.DB_VERSION);
+                    req.onerror = () => reject("DB Error");
+                    req.onsuccess = e => resolve(e.target.result);
+                    req.onupgradeneeded = e => Object.values(CONFIG.STORES).forEach(s => !e.target.result.objectStoreNames.contains(s) && e.target.result.createObjectStore(s, { keyPath: 'id' }));
+                }),
+                populate: async () => {
+                    elements.loadingText.textContent = 'Fetching latest data...';
+                    const mcqs = await (await fetch(CONFIG.DATA_URL)).json();
+                    elements.loadingText.textContent = 'Populating database...';
+                    const tx = db.transaction(CONFIG.STORES.MCQS, 'readwrite');
+                    await Promise.all([new Promise(r => tx.objectStore(CONFIG.STORES.MCQS).clear().onsuccess = r), ...mcqs.map(mcq => new Promise(r => tx.objectStore(CONFIG.STORES.MCQS).put(mcq).onsuccess = r))]);
+                    localStorage.setItem('db_version', CONFIG.DB_VERSION);
+                },
+                get: (store, id) => new Promise(r => db.transaction(store).objectStore(store).get(id).onsuccess = e => r(e.target.result)),
+                put: (store, data) => new Promise(r => db.transaction(store, 'readwrite').objectStore(store).put(data).onsuccess = r),
+                delete: (store, id) => new Promise(r => db.transaction(store, 'readwrite').objectStore(store).delete(id).onsuccess = r),
+                getAll: (store) => new Promise(r => db.transaction(store).objectStore(store).getAll().onsuccess = e => r(e.target.result)),
+            };
+
+            // --- UI & RENDER ---
+            const ui = {
+                toggleModal: (modal, show) => modal.classList.toggle('visible', show),
+                showToast: (message, type = 'info') => {
+                    const toast = document.createElement('div');
+                    toast.className = `toast ${type}`;
+                    toast.textContent = message;
+                    elements.toastContainer.appendChild(toast);
+                    setTimeout(() => toast.remove(), 3000);
+                },
+                renderMcqBlock: (mcq, isQuiz = false) => {
+                    const { isAnswered, isCorrect, isBookmarked, userChoice } = mcq.status;
+                    return `
+                        <div class="mcq-block" data-id="${mcq.id}">
+                            ${!isQuiz ? `<button class="icon-btn bookmark-btn ${isBookmarked ? 'bookmarked' : ''}" title="Bookmark (B)"><svg viewBox="0 0 24 24"><path d="M17,3H7A2,2 0 0,0 5,5V21L12,18L19,21V5C19,3.89 18.1,3 17,3Z"/></svg></button>` : ''}
+                            <p class="question">${mcq.id}. ${mcq.question}</p>
+                            <div class="options ${isAnswered ? 'answered' : ''}"><ul>${mcq.options.map(opt => {
+                        let liClass = '';
+                        if (isAnswered) {
+                            if (opt.correct) liClass = 'correct';
+                            else if (userChoice === opt.text) liClass = 'incorrect';
+                        }
+                        return `<li class="${liClass}" data-correct="${opt.correct}">${opt.text}</li>`;
+                    }).join('')}</ul></div>
+                            ${isAnswered && mcq.explanation ? `<div class="explanation"><strong>Explanation:</strong> <p>${mcq.explanation}</p></div>` : ''}
+                        </div>`;
+                },
+                renderPagination: (totalItems) => {
+                    const pageCount = Math.ceil(totalItems / CONFIG.MCQS_PER_PAGE);
+                    elements.pagination.innerHTML = pageCount <= 1 ? '' : [...Array(pageCount).keys()].map(i => `<button class="${i + 1 === appState.currentPage ? 'active' : ''}" data-page="${i + 1}">${i + 1}</button>`).join('');
+                },
+            };
+
+            // --- CORE LOGIC ---
+            async function getFilteredMcqs() {
+                const [mcqs, answers, bookmarks] = await Promise.all([dbOps.getAll(CONFIG.STORES.MCQS), dbOps.getAll(CONFIG.STORES.ANSWERS), dbOps.getAll(CONFIG.STORES.BOOKMARKS)]);
+                const answerMap = new Map(answers.map(a => [a.id, a]));
+                const bookmarkSet = new Set(bookmarks.map(b => b.id));
+
+                return mcqs.map(mcq => {
+                    const answer = answerMap.get(mcq.id);
+                    mcq.status = { isAnswered: !!answer, isCorrect: !!answer?.wasCorrect, userChoice: answer?.userChoice, isBookmarked: bookmarkSet.has(mcq.id) };
+                    return mcq;
+                }).filter(mcq => mcq.question.toLowerCase().includes(appState.query.toLowerCase()))
+                    .filter(mcq => {
+                        switch (appState.filter) {
+                            case 'unanswered': return !mcq.status.isAnswered;
+                            case 'correct': return mcq.status.isCorrect;
+                            case 'incorrect': return mcq.status.isAnswered && !mcq.status.isCorrect;
+                            case 'bookmarked': return mcq.status.isBookmarked;
+                            default: return true;
+                        }
+                    });
+            }
+
+            async function updateView() {
+                if (quizState.active) return;
+                localStorage.setItem('appState', JSON.stringify(appState));
+                const filtered = await getFilteredMcqs();
+                const pageCount = Math.ceil(filtered.length / CONFIG.MCQS_PER_PAGE) || 1;
+                appState.currentPage = Math.min(appState.currentPage, pageCount);
+
+                const start = (appState.currentPage - 1) * CONFIG.MCQS_PER_PAGE;
+                const end = start + CONFIG.MCQS_PER_PAGE;
+
+                elements.mcqContainer.innerHTML = filtered.slice(start, end).map(mcq => ui.renderMcqBlock(mcq)).join('');
+                ui.renderPagination(filtered.length);
+                elements.statusBar.textContent = filtered.length > 0 ? `Showing ${start + 1}-${Math.min(end, filtered.length)} of ${filtered.length} questions.` : 'No questions found.';
+            }
+
+            // --- QUIZ LOGIC ---
+            async function startQuiz(count) {
+                ui.toggleModal(elements.modals.quizSetup, false);
+                const allMcqs = await getFilteredMcqs();
+                quizState.questions = allMcqs.sort(() => 0.5 - Math.random()).slice(0, count);
+                if (quizState.questions.length < count) ui.showToast(`Only found ${quizState.questions.length} questions for the quiz.`, 'info');
+                if (quizState.questions.length === 0) { ui.showToast(`No questions found to start a quiz.`, 'error'); return; }
+
+                quizState.active = true;
+                quizState.answers = [];
+                quizState.currentIndex = 0;
+
+                elements.mainView.classList.add('hidden');
+                elements.quizView.classList.remove('hidden');
+                renderQuizQuestion();
+            }
+
+            function renderQuizQuestion() {
+                const mcq = quizState.questions[quizState.currentIndex];
+                elements.quizProgress.textContent = `Question ${quizState.currentIndex + 1} of ${quizState.questions.length}`;
+                elements.quizMcqContainer.innerHTML = ui.renderMcqBlock(mcq, true);
+            }
+
+            function handleQuizAnswer(li) {
+                if (li.closest('.options').classList.contains('answered')) return;
+                const wasCorrect = li.dataset.correct === 'true';
+                quizState.answers.push(wasCorrect);
+
+                li.closest('.options').classList.add('answered');
+                li.classList.add(wasCorrect ? 'correct' : 'incorrect');
+                if (!wasCorrect) li.closest('ul').querySelector('[data-correct="true"]').classList.add('correct');
+
+                setTimeout(() => {
+                    quizState.currentIndex++;
+                    if (quizState.currentIndex < quizState.questions.length) {
+                        renderQuizQuestion();
+                    } else {
+                        finishQuiz();
+                    }
+                }, 1200);
+            }
+
+            function finishQuiz() {
+                const correctCount = quizState.answers.filter(Boolean).length;
+                const total = quizState.questions.length;
+                const accuracy = total > 0 ? ((correctCount / total) * 100).toFixed(1) : 0;
+                $('#quiz-score').textContent = `${correctCount} / ${total}`;
+                $('#quiz-accuracy').textContent = `${accuracy}%`;
+                ui.toggleModal(elements.modals.quizResults, true);
+
+                quizState.active = false;
+                elements.mainView.classList.remove('hidden');
+                elements.quizView.classList.add('hidden');
+            }
+
+            // --- EVENT HANDLERS ---
+            // DELETE THE OLD setupEventListeners FUNCTION AND REPLACE IT WITH THIS
+
+            function setupEventListeners() {
+                // --- Bulletproof Event Listeners with Debugging ---
+                // This function checks if an element exists before attaching a listener.
+                // If an element is not found, it logs a specific error to the console instead of crashing the app.
+
+                const safeAttach = (element, event, handler, selectorName) => {
+                    if (element) {
+                        element[event] = handler;
+                    } else {
+                        console.error(`DEBUG: FAILED TO ATTACH '${event}' to '${selectorName}'. Element not found.`);
+                    }
+                };
+
+                // Main Content Listeners
+                safeAttach(elements.mcqContainer, 'onclick', async (e) => {
+                    const li = e.target.closest('li');
+                    const bookmarkBtn = e.target.closest('.bookmark-btn');
+                    if (li && !li.closest('.options').classList.contains('answered')) {
+                        const mcqBlock = li.closest('.mcq-block');
+                        const id = parseInt(mcqBlock.dataset.id);
+                        const wasCorrect = li.dataset.correct === 'true';
+                        await dbOps.put(CONFIG.STORES.ANSWERS, { id, wasCorrect, userChoice: li.textContent });
+                        ui.showToast(wasCorrect ? 'Correct!' : 'Incorrect.', wasCorrect ? 'success' : 'error');
+                        updateView();
+                    }
+                    if (bookmarkBtn) {
+                        const id = parseInt(bookmarkBtn.closest('.mcq-block').dataset.id);
+                        if (bookmarkBtn.classList.toggle('bookmarked')) {
+                            await dbOps.put(CONFIG.STORES.BOOKMARKS, { id });
+                            ui.showToast('Bookmark added.');
+                        } else {
+                            await dbOps.delete(CONFIG.STORES.BOOKMARKS, id);
+                            ui.showToast('Bookmark removed.');
+                        }
+                        if (appState.filter === 'bookmarked') updateView();
+                    }
+                }, 'mcqContainer');
+
+                safeAttach(elements.quizMcqContainer, 'onclick', (e) => e.target.closest('li') && handleQuizAnswer(e.target.closest('li')), 'quizMcqContainer');
+
+                // Header & Pagination Listeners
+                safeAttach(elements.searchInput, 'oninput', () => { appState.query = elements.searchInput.value; appState.currentPage = 1; updateView(); }, 'searchInput');
+                safeAttach(elements.pagination, 'onclick', e => e.target.dataset.page && (appState.currentPage = parseInt(e.target.dataset.page)) && updateView(), 'pagination');
+                safeAttach(elements.filterBtn, 'onclick', () => elements.filterDropdown.classList.toggle('show'), 'filterBtn');
+
+                // Dropdown & Modal Delegation (Handles dynamically added content)
+                safeAttach(elements.filterDropdown, 'onclick', e => {
+                    const target = e.target.closest('.filter-option');
+                    if (target) {
+                        $$('.filter-option').forEach(el => el.classList.remove('active'));
+                        target.classList.add('active');
+                        appState.filter = target.dataset.filter;
+                        appState.currentPage = 1;
+                        updateView();
+                        elements.filterDropdown.classList.remove('show');
+                    }
+                }, 'filterDropdown');
+
+                // General listener for all modals to handle closes and internal buttons
+                Object.entries(elements.modals).forEach(([modalName, modalElement]) => {
+                    safeAttach(modalElement, 'onclick', async (e) => {
+                        // Close modal by clicking background or close button
+                        if (e.target.matches('.modal-close-btn, .modal-close-btn *, .modal')) {
+                            ui.toggleModal(modalElement, false);
+                        }
+                        // Handle quiz setup buttons
+                        if (e.target.matches('.start-quiz-btn')) {
+                            startQuiz(parseInt(e.target.dataset.count));
+                        }
+                        // Handle reset button
+                        if (e.target.matches('#reset-btn')) {
+                            if (confirm("Are you sure? This will delete all your answers and bookmarks permanently.")) {
+                                const answers = await dbOps.getAll(CONFIG.STORES.ANSWERS);
+                                const bookmarks = await dbOps.getAll(CONFIG.STORES.BOOKMARKS);
+                                await Promise.all([
+                                    ...answers.map(item => dbOps.delete(CONFIG.STORES.ANSWERS, item.id)),
+                                    ...bookmarks.map(item => dbOps.delete(CONFIG.STORES.BOOKMARKS, item.id))
+                                ]);
+                                localStorage.removeItem('appState');
+                                location.reload();
+                            }
+                        }
+                    }, `modals['${modalName}']`);
+                });
+
+                // Header Button Listeners
+                safeAttach($('#stats-btn'), 'onclick', async () => {
+                    const answers = await dbOps.getAll(CONFIG.STORES.ANSWERS);
+                    const correct = answers.filter(a => a.wasCorrect).length;
+                    $('#answered-stat').textContent = answers.length;
+                    $('#correct-stat').textContent = correct;
+                    $('#incorrect-stat').textContent = answers.length - correct;
+                    $('#accuracy-stat').textContent = `${answers.length > 0 ? ((correct / answers.length) * 100).toFixed(1) : 0}%`;
+                    ui.toggleModal(elements.modals.stats, true);
+                }, 'stats-btn');
+
+                safeAttach($('#quiz-btn'), 'onclick', () => ui.toggleModal(elements.modals.quizSetup, true), 'quiz-btn');
+
+                // Theme toggle needs a null check too, just in case
+                const themeBtn = document.getElementById('theme-toggle-btn');
+                safeAttach(themeBtn, 'onclick', () => {
+                    document.body.classList.toggle('dark-mode');
+                    localStorage.setItem('theme', document.body.className);
+                }, 'theme-toggle-btn');
+
+                // Window-level events (these are always safe but kept for consistency)
+                window.onscroll = () => elements.backToTopBtn.classList.toggle('visible', window.scrollY > 300);
+                window.onkeydown = e => {
+                    if (document.activeElement && document.activeElement.tagName === 'INPUT') return;
+                    const keyMap = { 'f': () => elements.filterBtn.click(), 'q': () => $('#quiz-btn').click(), 's': () => $('#stats-btn').click(), 't': () => themeBtn.click() };
+                    keyMap[e.key.toLowerCase()]?.();
+                    if (e.key === 'Escape') {
+                        $$('.modal.visible').forEach(m => ui.toggleModal(m, false));
+                        elements.filterDropdown.classList.remove('show');
+                    }
+                };
+
+                // This listener closes the filter dropdown when clicking outside of it
+                document.addEventListener('click', e => {
+                    if (!e.target.closest('.filter-container')) {
+                        elements.filterDropdown.classList.remove('show');
+                    }
+                });
+            }
+            // --- INITIALIZATION ---
+            async function initializeApp() {
+                document.body.className = localStorage.getItem('theme') || '';
+                const savedState = JSON.parse(localStorage.getItem('appState'));
+                if (savedState) Object.assign(appState, savedState);
+                elements.searchInput.value = appState.query;
+                $(`.filter-option[data-filter="${appState.filter}"]`)?.classList.add('active');
+
+                try {
+                    db = await dbOps.open();
+                    if (parseInt(localStorage.getItem('db_version')) !== CONFIG.DB_VERSION) await dbOps.populate();
+                    setupEventListeners();
+                    await updateView();
+                } catch (err) {
+                    elements.loadingText.textContent = `Fatal Error: ${err.message}. Please clear site data and retry.`;
+                    return;
+                }
+                elements.loading.style.display = 'none';
+            }
+
+            initializeApp();
+        });
+    </script>
+</body>
+
+</html>

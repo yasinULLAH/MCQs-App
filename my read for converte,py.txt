@@ -1,0 +1,23 @@
+
+C:\phpserver\www\site scrapper>python converter.py
+
+--- MCQs Data Converter ---
+Choose your operation:
+1. Convert JSON to CSV (For Google Sheets translation)
+2. Convert translated CSV back to JSON
+3. Exit
+Enter your choice (1, 2, or 3): 1
+Loading data from 'mcqs_data.json'...
+Converting JSON to CSV format...
+Processing MCQs: 100%|████████████████████████████████████████████████████████| 20872/20872 [00:00<00:00, 69749.51it/s]
+
+Successfully created 'for_translation.csv'.
+
+--- NEXT STEPS ---
+1. Open Google Sheets.
+2. Go to 'File' -> 'Import' and upload 'for_translation.csv'.
+3. In cell D2, enter this formula: =GOOGLETRANSLATE(B2, "en", "ur")
+4. Drag the blue square at the corner of cell D2 all the way down to apply the formula to all rows.
+5. Once translation is complete, go to 'File' -> 'Download' -> 'Comma Separated Values (.csv)'.
+6. Save that file as 'translated_from_sheets.csv' in this same folder.
+7. Run this script again and choose Mode 2.

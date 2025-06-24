@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>myMCQs Advanced Study App</title>
+    <style>
+        :root {
+            --bg-color: #f0f2f5; --card-bg-color: #ffffff; --text-color: #1d2129;
+            --question-color: #050505; --correct-color: #31a24c; --incorrect-color: #fa383e;
+            --border-color: #dddfe2; --shadow-color: rgba(0, 0, 0, 0.1);
+            --header-bg: #ffffff; --accent-color: #1877f2; --accent-hover-color: #166fe5;
+            --font-main: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body.dark-mode {
+            --bg-color: #18191a; --card-bg-color: #242526; --text-color: #e4e6eb;
+            --question-color: #e4e6eb; --correct-color: #45bd62; --incorrect-color: #ff5252;
+            --border-color: #3a3b3c; --shadow-color: rgba(0, 0, 0, 0.3);
+            --header-bg: #242526; --accent-color: #2e89ff; --accent-hover-color: #4a9aff;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-main); margin: 0; background-color: var(--bg-color);
+            color: var(--text-color); transition: background-color 0.3s, color 0.3s;
+        }
+
+        .header {
+            position: sticky; top: 0; z-index: 1000; background-color: var(--header-bg);
+            padding: 10px 20px; box-shadow: 0 2px 5px var(--shadow-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .controls {
+            display: flex; justify-content: space-between; align-items: center;
+            max-width: 1200px; margin: 0 auto; gap: 15px;
+        }
+
+        #search-input {
+            flex-grow: 1; padding: 10px 15px; font-size: 16px; border-radius: 20px;
+            border: 1px solid var(--border-color); background-color: var(--bg-color);
+            color: var(--text-color); outline: none; transition: all 0.2s;
+        }
+        #search-input:focus { border-color: var(--accent-color); box-shadow: 0 0 0 2px var(--accent-color); }
+
+        .icon-btn {
+            background: none; border: none; cursor: pointer; padding: 8px;
+            color: var(--text-color); border-radius: 50%; display: flex;
+            align-items: center; justify-content: center; transition: background-color 0.2s;
+        }
+        .icon-btn:hover { background-color: var(--border-color); }
+        .icon-btn svg { width: 24px; height: 24px; fill: currentColor; }
+
+        main { padding: 20px; max-width: 1200px; margin: 20px auto; }
+        .mcq-block {
+            background-color: var(--card-bg-color); border: 1px solid var(--border-color);
+            border-radius: 12px; padding: 25px; margin-bottom: 20px;
+            box-shadow: 0 2px 8px var(--shadow-color); transition: transform 0.2s;
+        }
+        .mcq-block:hover { transform: translateY(-3px); }
+
+        .question { font-size: 1.2em; font-weight: 600; color: var(--question-color); margin-bottom: 20px; line-height: 1.4; }
+        .options ul { list-style-type: none; padding-left: 0; margin: 0; display: grid; gap: 10px; }
+        .options li {
+            padding: 12px 15px; border-radius: 8px; border: 1px solid var(--border-color);
+            transition: all 0.2s ease-in-out; position: relative; padding-left: 40px;
+        }
+
+        .options:not(.answered) li { cursor: pointer; }
+        .options:not(.answered) li:hover { border-color: var(--accent-color); background-color: color-mix(in srgb, var(--accent-color) 10%, transparent); }
+        
+        .options li::before {
+            content: ''; font-family: 'Arial'; font-weight: bold; width: 22px; height: 22px;
+            border-radius: 50%; background-color: var(--bg-color); border: 1px solid var(--border-color);
+            position: absolute; left: 10px; top: 50%; transform: translateY(-50%);
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        li.correct { background-color: color-mix(in srgb, var(--correct-color) 15%, transparent); border-color: var(--correct-color); color: var(--correct-color); font-weight: 500; }
+        li.incorrect { background-color: color-mix(in srgb, var(--incorrect-color) 15%, transparent); border-color: var(--incorrect-color); color: var(--text-color); }
+        .answered li.correct { font-weight: bold; }
+        .answered li.correct::before { content: '✔'; background-color: var(--correct-color); border-color: var(--correct-color); color: white; }
+        .answered li.incorrect::before { content: '✖'; background-color: var(--incorrect-color); border-color: var(--incorrect-color); color: white; }
+
+        #pagination { display: flex; justify-content: center; align-items: center; flex-wrap: wrap; padding: 20px; gap: 8px; }
+        #pagination button {
+            padding: 10px 15px; cursor: pointer; border: 1px solid var(--border-color);
+            background-color: var(--card-bg-color); color: var(--text-color); border-radius: 8px;
+            transition: all 0.2s;
+        }
+        #pagination button:hover:not(:disabled) { background-color: var(--border-color); border-color: var(--accent-color); }
+        #pagination button.active { background-color: var(--accent-color); color: white; font-weight: bold; border-color: var(--accent-color); }
+        #pagination button:disabled { opacity: 0.5; cursor: default; }
+
+        #status-bar { text-align: center; padding: 10px; color: #8a8d91; }
+
+        .loading-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7); backdrop-filter: blur(5px);
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            z-index: 2000; color: white;
+        }
+        .spinner {
+            width: 50px; height: 50px; border: 5px solid rgba(255,255,255,0.3);
+            border-top-color: #fff; border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 20px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(5px);
+            display: none; justify-content: center; align-items: center; z-index: 3000;
+        }
+        .modal.visible { display: flex; }
+        .modal-content {
+            background: var(--card-bg-color); padding: 30px; border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2); width: 90%; max-width: 500px;
+            position: relative;
+        }
+        .modal-close-btn { position: absolute; top: 10px; right: 10px; }
+        .modal h2 { margin-top: 0; color: var(--question-color); }
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 20px 0; }
+        .stat-item { background-color: var(--bg-color); padding: 15px; border-radius: 8px; text-align: center; }
+        .stat-item .value { font-size: 2em; font-weight: bold; }
+        .stat-item .label { font-size: 0.9em; color: #8a8d91; }
+        .stat-item .value.correct { color: var(--correct-color); }
+        .stat-item .value.incorrect { color: var(--incorrect-color); }
+        .modal-actions { display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
+        .modal-actions button {
+            flex-grow: 1; padding: 12px 15px; font-size: 1em; font-weight: 500;
+            border-radius: 8px; cursor: pointer; border: 1px solid var(--border-color);
+            background-color: var(--bg-color); color: var(--text-color); transition: all 0.2s;
+        }
+        .modal-actions button:hover { border-color: var(--accent-color); }
+        #reset-btn { background-color: var(--incorrect-color); color: white; border-color: var(--incorrect-color); }
+        #reset-btn:hover { background-color: color-mix(in srgb, var(--incorrect-color) 85%, black); }
+    </style>
+</head>
+<body>
+    <div class="loading-overlay" id="loading-overlay">
+        <div class="spinner"></div>
+        <p>Loading app...</p>
+    </div>
+    
+    <header class="header">
+        <div class="controls">
+            <input type="search" id="search-input" placeholder="Type to search questions...">
+            <button id="stats-btn" class="icon-btn" title="Show Statistics">
+                <svg viewBox="0 0 24 24"><path d="M16,11.78L20.24,4.45L21.97,5.45L16.74,14.5L10.23,10.5L5.45,18.16L4.22,17.15L10.23,8.5L16,11.78Z" /></svg>
+            </button>
+            <button id="theme-toggle-btn" class="icon-btn" title="Toggle Dark/Light Mode">
+                <svg viewBox="0 0 24 24"><path d="M12 2A10 10 0 0 0 2 12A10 10 0 0 0 12 22A10 10 0 0 0 22 12A10 10 0 0 0 12 2M12 4A8 8 0 0 1 20 12A8 8 0 0 1 12 20V4Z" /></svg>
+            </button>
+        </div>
+    </header>
+
+    <main id="mcq-container"></main>
+    <div id="status-bar"></div>
+    <nav id="pagination"></nav>
+
+    <div class="modal" id="stats-modal">
+        <div class="modal-content">
+            <button id="stats-close-btn" class="icon-btn modal-close-btn" title="Close">
+                 <svg viewBox="0 0 24 24"><path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" /></svg>
+            </button>
+            <h2>Your Progress</h2>
+            <div class="stats-grid">
+                <div class="stat-item"><div class="value" id="answered-stat">0</div><div class="label">Answered</div></div>
+                <div class="stat-item"><div class="value correct" id="correct-stat">0</div><div class="label">Correct</div></div>
+                <div class="stat-item"><div class="value incorrect" id="incorrect-stat">0</div><div class="label">Incorrect</div></div>
+                <div class="stat-item"><div class="value" id="accuracy-stat">0%</div><div class="label">Accuracy</div></div>
+            </div>
+            <div class="modal-actions">
+                <button id="export-btn">Export Stats</button>
+                <button id="share-btn">Share Stats</button>
+            </div>
+             <div class="modal-actions">
+                <button id="reset-btn">Reset All Data</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            // --- CONFIGURATION ---
+            const DB_NAME = 'myMCQsDB';
+            const STORE_NAME = 'mcqs';
+            const ANSWERS_STORE_NAME = 'answers';
+            const DB_VERSION = 2; // Incremented for new 'answers' store
+            const DATA_URL = 'rewritten_mcqs_no_ai.json';
+            const MCQS_PER_PAGE = 25;
+
+            // --- DOM ELEMENT REFERENCES ---
+            const loadingOverlay = document.getElementById('loading-overlay');
+            const loadingText = loadingOverlay.querySelector('p');
+            const mcqContainer = document.getElementById('mcq-container');
+            const paginationContainer = document.getElementById('pagination');
+            const searchInput = document.getElementById('search-input');
+            const statusBar = document.getElementById('status-bar');
+            const themeToggleBtn = document.getElementById('theme-toggle-btn');
+            const statsBtn = document.getElementById('stats-btn');
+            const statsModal = document.getElementById('stats-modal');
+            const statsCloseBtn = document.getElementById('stats-close-btn');
+
+            let db;
+
+            // --- DATABASE LOGIC ---
+            function openDB() {
+                return new Promise((resolve, reject) => {
+                    const request = indexedDB.open(DB_NAME, DB_VERSION);
+                    request.onerror = () => reject("Error opening DB");
+                    request.onsuccess = (event) => resolve(event.target.result);
+                    request.onupgradeneeded = (event) => {
+                        let db = event.target.result;
+                        if (!db.objectStoreNames.contains(STORE_NAME)) {
+                            db.createObjectStore(STORE_NAME, { keyPath: 'id' });
+                        }
+                        if (!db.objectStoreNames.contains(ANSWERS_STORE_NAME)) {
+                            db.createObjectStore(ANSWERS_STORE_NAME, { keyPath: 'questionId' });
+                        }
+                    };
+                });
+            }
+
+            async function populateDB() {
+                loadingText.textContent = 'Setting up for first use... Fetching data...';
+                const response = await fetch(DATA_URL);
+                const mcqs = await response.json();
+                
+                loadingText.textContent = 'Populating local database... Please wait.';
+                const transaction = db.transaction(STORE_NAME, 'readwrite');
+                const store = transaction.objectStore(STORE_NAME);
+                await new Promise(r => { store.clear().onsuccess = r; });
+                for (const mcq of mcqs) { store.put(mcq); }
+
+                return new Promise((resolve) => {
+                    transaction.oncomplete = () => {
+                        localStorage.setItem('db_version', DB_VERSION);
+                        localStorage.setItem('total_questions', mcqs.length);
+                        resolve();
+                    };
+                });
+            }
+            
+            async function getFilteredData(page, query) {
+                return new Promise((resolve) => {
+                    const store = db.transaction(STORE_NAME, 'readonly').objectStore(STORE_NAME);
+                    const results = [];
+                    const lowerQuery = query.toLowerCase();
+
+                    store.openCursor().onsuccess = (event) => {
+                        const cursor = event.target.result;
+                        if(cursor) {
+                            if(cursor.value.question.toLowerCase().includes(lowerQuery)) {
+                                results.push(cursor.value);
+                            }
+                            cursor.continue();
+                        } else {
+                            resolve({
+                                data: results.slice((page - 1) * MCQS_PER_PAGE, page * MCQS_PER_PAGE),
+                                total: results.length
+                            });
+                        }
+                    };
+                });
+            }
+            
+            // --- STATISTICS & DATA ACTIONS ---
+            async function saveAnswer(questionId, wasCorrect) {
+                const transaction = db.transaction(ANSWERS_STORE_NAME, 'readwrite');
+                const store = transaction.objectStore(ANSWERS_STORE_NAME);
+                store.put({ questionId, wasCorrect });
+            }
+
+            async function getAnswersByIds(ids) {
+                const store = db.transaction(ANSWERS_STORE_NAME, 'readonly').objectStore(ANSWERS_STORE_NAME);
+                const answers = {};
+                for (const id of ids) {
+                    const request = store.get(id);
+                    const result = await new Promise(r => request.onsuccess = () => r(request.result));
+                    if (result) {
+                        answers[id] = result;
+                    }
+                }
+                return answers;
+            }
+
+            async function calculateStats() {
+                return new Promise(resolve => {
+                    const store = db.transaction(ANSWERS_STORE_NAME, 'readonly').objectStore(ANSWERS_STORE_NAME);
+                    let total = 0, correct = 0;
+                    store.openCursor().onsuccess = e => {
+                        const cursor = e.target.result;
+                        if (cursor) {
+                            total++;
+                            if (cursor.value.wasCorrect) correct++;
+                            cursor.continue();
+                        } else {
+                            resolve({
+                                total, correct, incorrect: total - correct,
+                                accuracy: total > 0 ? ((correct / total) * 100).toFixed(1) : 0
+                            });
+                        }
+                    };
+                });
+            }
+
+            async function resetAllData() {
+                if (confirm("Are you sure you want to reset all your progress? This action cannot be undone.")) {
+                    const transaction = db.transaction(ANSWERS_STORE_NAME, 'readwrite');
+                    await new Promise(r => { transaction.objectStore(ANSWERS_STORE_NAME).clear().onsuccess = r; });
+                    localStorage.removeItem('currentPage');
+                    location.reload();
+                }
+            }
+
+            // --- UI RENDERING ---
+            function renderMCQs(mcqs, savedAnswers) {
+                mcqContainer.innerHTML = '';
+                for (const mcq of mcqs) {
+                    const savedAnswer = savedAnswers[mcq.id];
+                    let optionsHTML = mcq.options.map(opt => {
+                        let liClass = '';
+                        if (savedAnswer) {
+                            if (opt.correct) liClass = 'correct';
+                            else if (opt.text === savedAnswer.userChoice && !opt.correct) liClass = 'incorrect';
+                        }
+                        return `<li class="${liClass}" data-correct="${opt.correct}">${opt.text}</li>`;
+                    }).join('');
+
+                    mcqContainer.innerHTML += `
+                        <div class="mcq-block" data-id="${mcq.id}">
+                            <p class="question">${mcq.id}. ${mcq.question}</p>
+                            <div class="options ${savedAnswer ? 'answered' : ''}"><ul>${optionsHTML}</ul></div>
+                        </div>
+                    `;
+                }
+            }
+
+            function renderPagination(totalItems, page) {
+                paginationContainer.innerHTML = '';
+                const pageCount = Math.ceil(totalItems / MCQS_PER_PAGE);
+                if (pageCount <= 1) return;
+                
+                let start = Math.max(1, page - 2), end = Math.min(pageCount, page + 2);
+                const buttons = [];
+                if(page > 1) buttons.push(`<button data-page="${page-1}">«</button>`);
+                if(start > 1) { buttons.push(`<button data-page="1">1</button>`); if(start > 2) buttons.push(`<button disabled>...</button>`); }
+                for(let i=start; i<=end; i++) buttons.push(`<button class="${i === page ? 'active' : ''}" data-page="${i}">${i}</button>`);
+                if(end < pageCount) { if(end < pageCount - 1) buttons.push(`<button disabled>...</button>`); buttons.push(`<button data-page="${pageCount}">${pageCount}</button>`); }
+                if(page < pageCount) buttons.push(`<button data-page="${page+1}">»</button>`);
+                
+                paginationContainer.innerHTML = buttons.join('');
+            }
+
+            async function updateView(page = 1, query = '') {
+                localStorage.setItem('currentPage', page);
+                const { data, total } = await getFilteredData(page, query);
+                const questionIds = data.map(q => q.id);
+                const savedAnswers = await getAnswersByIds(questionIds);
+                
+                renderMCQs(data, savedAnswers);
+                renderPagination(total, page);
+                const startItem = (page - 1) * MCQS_PER_PAGE + 1;
+                statusBar.textContent = total > 0 ? `Showing ${startItem}-${startItem + data.length - 1} of ${total} questions.` : 'No questions found.';
+            }
+async init() {
+    this.db = await dbOps.open();
+    
+    try {
+        // Try to get existing questions first
+        const existingQuestions = await new Promise(r => this.db.transaction(CONFIG.STORES.QUESTIONS).objectStore(CONFIG.STORES.QUESTIONS).getAll().onsuccess = e => r(e.target.result));
+        
+        if (existingQuestions.length > 0) {
+            this.questions = existingQuestions;
+        } else {
+            // If no questions exist, fetch from JSON
+            const response = await fetch(CONFIG.DATA_URL);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const questions = await response.json();
+            
+            // Store in IndexedDB
+            const tx = this.db.transaction(CONFIG.STORES.QUESTIONS, 'readwrite');
+            const store = tx.objectStore(CONFIG.STORES.QUESTIONS);
+            
+            await new Promise(r => store.clear().onsuccess = r);
+            
+            for (const question of questions) {
+                await new Promise(r => store.put(question).onsuccess = r);
+            }
+            
+            this.questions = questions;
+        }
+    } catch (error) {
+        console.error('Error loading questions:', error);
+        throw error;
+    }
+
+    this.loadUserData();
+    this.setupEventListeners();
+    this.updateStats();
+    this.renderQuestions();
+    this.hideLoading();
+}
+
+            // --- INITIALIZATION & EVENT LISTENERS ---
+            async function initializeApp() {
+                try {
+                    db = await openDB();
+                    if (parseInt(localStorage.getItem('db_version')) !== DB_VERSION) {
+                        await populateDB();
+                    }
+                    
+                    const savedPage = parseInt(localStorage.getItem('currentPage')) || 1;
+                    await updateView(savedPage, searchInput.value);
+                    loadingOverlay.style.display = 'none';
+                } catch (error) {
+                    loadingText.textContent = `Error: Could not initialize. ${error.message}`;
+                }
+            }
+            
+            mcqContainer.addEventListener('click', (e) => {
+                if (e.target.tagName === 'LI' && !e.target.closest('.options').classList.contains('answered')) {
+                    const li = e.target;
+                    const optionsDiv = li.closest('.options');
+                    const mcqBlock = li.closest('.mcq-block');
+                    const questionId = parseInt(mcqBlock.dataset.id);
+                    const wasCorrect = li.dataset.correct === 'true';
+
+                    optionsDiv.classList.add('answered');
+                    if (wasCorrect) {
+                        li.classList.add('correct');
+                    } else {
+                        li.classList.add('incorrect');
+                        optionsDiv.querySelector('[data-correct="true"]').classList.add('correct');
+                    }
+                    saveAnswer(questionId, wasCorrect);
+                }
+            });
+
+            statsBtn.addEventListener('click', async () => {
+                const stats = await calculateStats();
+                document.getElementById('answered-stat').textContent = stats.total;
+                document.getElementById('correct-stat').textContent = stats.correct;
+                document.getElementById('incorrect-stat').textContent = stats.incorrect;
+                document.getElementById('accuracy-stat').textContent = `${stats.accuracy}%`;
+                statsModal.classList.add('visible');
+            });
+            statsCloseBtn.addEventListener('click', () => statsModal.classList.remove('visible'));
+            document.getElementById('reset-btn').addEventListener('click', resetAllData);
+            document.getElementById('export-btn').addEventListener('click', async () => {
+                const stats = await calculateStats();
+                const text = `myMCQs Study Stats\n---------------------\nAnswered: ${stats.total}\nCorrect: ${stats.correct}\nIncorrect: ${stats.incorrect}\nAccuracy: ${stats.accuracy}%\n`;
+                const blob = new Blob([text], { type: 'text/plain' });
+                const a = document.createElement('a');
+                a.href = URL.createObjectURL(blob);
+                a.download = 'myMCQs_stats.txt';
+                a.click();
+            });
+            document.getElementById('share-btn').addEventListener('click', async () => {
+                const stats = await calculateStats();
+                const shareData = {
+                    title: 'myMCQs Stats',
+                    text: `My myMCQs Progress: ${stats.correct}/${stats.total} correct (${stats.accuracy}%)!`,
+                };
+                if (navigator.share) {
+                    try { await navigator.share(shareData); } catch(err) { console.error("Share failed", err) }
+                } else {
+                    alert("Sharing is not supported on this browser.");
+                }
+            });
+
+            searchInput.addEventListener('input', () => updateView(1, searchInput.value));
+            paginationContainer.addEventListener('click', (e) => {
+                if (e.target.tagName === 'BUTTON' && e.target.dataset.page) {
+                    updateView(parseInt(e.target.dataset.page), searchInput.value);
+                }
+            });
+            themeToggleBtn.addEventListener('click', () => {
+                document.body.classList.toggle('dark-mode');
+                const isDark = document.body.classList.contains('dark-mode');
+                localStorage.setItem('theme', isDark ? 'dark' : 'light');
+                themeToggleBtn.querySelector('path').setAttribute('d', isDark ? 'M12,18C11.11,18 10.26,17.8 9.5,17.45L11.5,15.45C11.62,15.79 11.79,16.1 12,16.39V18M19.36,10.27L17,12.64C17,12.43 17,12.21 17,12A5,5 0 0,0 12,7V5A7,7 0 0,1 19,12C19,11.42 18.88,10.86 18.64,10.36L19.36,10.27M20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4V2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12H20M12,9.17L14.83,12L12,14.83V9.17M7.17,12L10,9.17V14.83L7.17,12Z' : 'M12 2A10 10 0 0 0 2 12A10 10 0 0 0 12 22A10 10 0 0 0 22 12A10 10 0 0 0 12 2M12 4A8 8 0 0 1 20 12A8 8 0 0 1 12 20V4Z');
+            });
+
+            if (localStorage.getItem('theme') === 'dark') {
+                document.body.classList.add('dark-mode');
+                themeToggleBtn.querySelector('path').setAttribute('d', 'M12,18C11.11,18 10.26,17.8 9.5,17.45L11.5,15.45C11.62,15.79 11.79,16.1 12,16.39V18M19.36,10.27L17,12.64C17,12.43 17,12.21 17,12A5,5 0 0,0 12,7V5A7,7 0 0,1 19,12C19,11.42 18.88,10.86 18.64,10.36L19.36,10.27M20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4V2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12H20M12,9.17L14.83,12L12,14.83V9.17M7.17,12L10,9.17V14.83L7.17,12Z');
+            }
+
+            initializeApp();
+        });
+    </script>
+</body>
+</html>
