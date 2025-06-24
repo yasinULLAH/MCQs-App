@@ -13,6 +13,7 @@ def convert_json_to_csv():
     """
     Reads the structured JSON file and flattens it into a CSV
     perfectly formatted for translation in Google Sheets.
+    (This function is unchanged)
     """
     if not os.path.exists(SOURCE_JSON):
         print(f"Error: Source file '{SOURCE_JSON}' not found.")
@@ -22,19 +23,14 @@ def convert_json_to_csv():
     with open(SOURCE_JSON, 'r', encoding='utf-8') as f:
         mcqs = json.load(f)
 
-    # Prepare to write the CSV
     with open(CSV_FOR_TRANSLATION, 'w', newline='', encoding='utf-8') as f:
         writer = csv.writer(f)
-        # Write the header row
         writer.writerow(['unique_id', 'source_text', 'is_correct', 'translated_text'])
 
         print("Converting JSON to CSV format...")
         for mcq in tqdm(mcqs, desc="Processing MCQs"):
-            # Write the question row
             question_id = f"{mcq['id']}_question"
             writer.writerow([question_id, mcq['question'], '', ''])
-
-            # Write each option row
             for i, option in enumerate(mcq['options']):
                 option_id = f"{mcq['id']}_option_{i}"
                 writer.writerow([option_id, option['text'], option['correct'], ''])
@@ -53,6 +49,7 @@ def convert_csv_to_json():
     """
     Reads the translated CSV file from Google Sheets and reconstructs
     it back into the original structured JSON format.
+    (This function has been fixed)
     """
     if not os.path.exists(TRANSLATED_CSV_FROM_SHEETS):
         print(f"Error: Translated file '{TRANSLATED_CSV_FROM_SHEETS}' not found.")
@@ -63,31 +60,33 @@ def convert_csv_to_json():
     print(f"Loading translated data from '{TRANSLATED_CSV_FROM_SHEETS}'...")
     with open(TRANSLATED_CSV_FROM_SHEETS, 'r', encoding='utf-8') as f:
         reader = csv.reader(f)
-        header = next(reader) # Skip header
+        header = next(reader) 
 
         for row in tqdm(reader, desc="Reconstructing JSON"):
+            # --- THE FIX IS HERE ---
+            # If the row is empty or the first cell is empty, skip it.
+            if not row or not row[0]:
+                continue
+            # --- END OF FIX ---
+
             unique_id, source_text, is_correct, translated_text = row
             
-            # Use a default if translation failed or is empty
             final_text = translated_text if translated_text else source_text
 
             parts = unique_id.split('_')
             mcq_id = int(parts[0])
 
-            # If we see a new ID, create a placeholder for it
             if mcq_id not in reconstructed_data:
                 reconstructed_data[mcq_id] = {'id': mcq_id, 'question': '', 'options': []}
 
-            # Populate the placeholder based on the row type
             if parts[1] == 'question':
                 reconstructed_data[mcq_id]['question'] = final_text
             elif parts[1] == 'option':
                 reconstructed_data[mcq_id]['options'].append({
                     'text': final_text,
-                    'correct': is_correct.upper() == 'TRUE' # Convert string "TRUE" back to boolean
+                    'correct': is_correct.upper() == 'TRUE'
                 })
 
-    # Convert the dictionary of MCQs into a sorted list
     final_json_list = sorted(list(reconstructed_data.values()), key=lambda x: x['id'])
 
     print(f"\nSaving reconstructed data to '{FINAL_URDU_JSON}'...")
