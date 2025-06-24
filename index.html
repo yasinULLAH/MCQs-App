@@ -531,6 +531,7 @@
             justify-content: center;
             gap: 10px;
             margin: 40px 0;
+            text-align: center;
         }
 
         .page-btn {
@@ -1247,6 +1248,16 @@
                 }
             }
             setupEventListeners() {
+                                // --- Replace your old pagination listener with this one ---
+                document.getElementById('pagination').addEventListener('click', (e) => {
+                    // Check if a page button was clicked (and not a disabled one)
+                    const targetButton = e.target.closest('button[data-page]');
+                    if (targetButton && !targetButton.disabled) {
+                        const page = parseInt(targetButton.dataset.page);
+                        // Call the app's internal method to change the page
+                        this.goToPage(page);
+                    }
+                });
                 document.getElementById('collapseToggle').addEventListener('click', () => {
                     const btn = document.getElementById('collapseToggle');
                     const section = document.getElementById('collapsibleStats');
@@ -1366,6 +1377,7 @@
                         scrollBtn.style.transform = 'translateY(100px)';
                     }
                 });
+
             }
             renderQuestions() {
                 const container = document.getElementById('questionsContainer');
@@ -1548,22 +1560,56 @@
             renderPagination(totalQuestions) {
                 const totalPages = Math.ceil(totalQuestions / this.questionsPerPage);
                 const pagination = document.getElementById('pagination');
+                const currentPage = this.currentPage;
+
+                // Clear previous pagination and stop if not needed
+                pagination.innerHTML = '';
                 if (totalPages <= 1) {
-                    pagination.innerHTML = '';
                     return;
                 }
-                let paginationHTML = '';
+
+                let paginationHTML = [];
+                const contextRange = 2; // How many pages to show around the current one
+
+                // 1. "Previous" Button
+                paginationHTML.push(
+                    `<button class="page-btn" data-page="${currentPage - 1}" ${currentPage === 1 ? 'disabled' : ''}>«</button>`
+                );
+
+                // 2. Page Number Buttons with smart logic
+                let lastPage = 0;
                 for (let i = 1; i <= totalPages; i++) {
-                    paginationHTML += `
-                        <button class="page-btn ${i === this.currentPage ? 'active' : ''}" 
-                                onclick="app.goToPage(${i})">${i}</button>
-                    `;
+                    // Conditions to decide if a page number should be shown
+                    const isFirstPage = i === 1;
+                    const isLastPage = i === totalPages;
+                    const isInContextRange = (i >= currentPage - contextRange && i <= currentPage + contextRange);
+
+                    if (isFirstPage || isLastPage || isInContextRange) {
+                        // If there is a gap between the last shown page and this one, add an ellipsis
+                        if (i > lastPage + 1) {
+                            paginationHTML.push('<button class="page-btn" disabled>...</button>');
+                        }
+                        
+                        // Add the actual page button
+                        paginationHTML.push(
+                            `<button class="page-btn ${i === currentPage ? 'active' : ''}" data-page="${i}">${i}</button>`
+                        );
+                        
+                        lastPage = i;
+                    }
                 }
-                pagination.innerHTML = paginationHTML;
+
+                // 3. "Next" Button
+                paginationHTML.push(
+                    `<button class="page-btn" data-page="${currentPage + 1}" ${currentPage === totalPages ? 'disabled' : ''}>»</button>`
+                );
+
+                // Render all buttons at once
+                pagination.innerHTML = paginationHTML.join('');
             }
             goToPage(page) {
                 this.currentPage = page;
-                this.saveUserData();
+                this.saveUserData(); 
                 this.renderQuestions();
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             }
