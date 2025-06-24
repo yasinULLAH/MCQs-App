@@ -907,7 +907,6 @@
         <h2>Loading YasinMCQs Pro...</h2>
         <p>Preparing your study session</p>
     </div>
-
     <header class="header">
         <div class="container">
             <div class="header-content">
@@ -917,7 +916,6 @@
                     </svg>
                     YasinMCQs Pro
                 </a>
-
                 <div class="search-container">
                     <input type="text" class="search-input" id="searchInput"
                         placeholder="Search questions, topics, or keywords...">
@@ -928,15 +926,12 @@
                         </svg>
                     </button>
                 </div>
-
                 <div class="nav-actions">
-
                     <button class="icon-btn collapse-btn" id="collapseToggle" title="Hide/Show Stats">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
                         </svg>
                     </button>
-
                     <button class="icon-btn" id="themeToggle" title="Toggle Theme">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
                             <path
@@ -960,7 +955,6 @@
             </div>
         </div>
     </header>
-
     <main class="main-content">
         <div class="container">
             <div class="collapsible-section" id="collapsibleStats">
@@ -986,11 +980,9 @@
                         <div class="stat-label">Day Streak</div>
                     </div>
                 </div>
-
                 <div class="study-streak" id="streakBanner">
                     🔥 Amazing! You're on a 5-day study streak! Keep it up!
                 </div>
-
                 <div class="progress-section">
                     <h3>Overall Progress</h3>
                     <div class="progress-bar">
@@ -1011,7 +1003,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="filters-section">
                     <div class="filter-group">
                         <button class="filter-btn active" data-filter="all">All Questions</button>
@@ -1034,21 +1025,16 @@
                 </div>
             </div>
             <div class="questions-grid" id="questionsContainer">
-                <!-- Questions will be loaded here -->
             </div>
-
             <div class="pagination" id="pagination">
-                <!-- Pagination will be generated here -->
             </div>
         </div>
     </main>
-
     <button class="floating-action" id="scrollToTop" title="Scroll to top">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
             <path d="M12 6l-6 6h4v6h4v-6h4l-6-6z" />
         </svg>
     </button>
-
     <div class="modal" id="quizModal">
         <div class="modal-content">
             <h2>Start New Quiz</h2>
@@ -1099,7 +1085,6 @@
             </div>
         </div>
     </div>
-
     <div class="modal" id="statsModal">
         <div class="modal-content">
             <h2>Detailed Statistics</h2>
@@ -1131,7 +1116,6 @@
             </div>
         </div>
     </div>
-
     <div class="modal" id="quizResultModal">
         <div class="modal-content">
             <h2>Quiz Complete!</h2>
@@ -1164,7 +1148,6 @@
             </div>
         </div>
     </div>
-
     <script>
         const CONFIG = {
             DB_NAME: 'YasinMCQsProDB',
@@ -1173,7 +1156,6 @@
             DATA_URL: 'mcqs_bilingual_sequential2.json',
             QUESTIONS_PER_PAGE: 20,
         };
-
         const dbOps = {
             open: () => new Promise((resolve, reject) => {
                 const req = indexedDB.open(CONFIG.DB_NAME, CONFIG.DB_VERSION);
@@ -1182,7 +1164,6 @@
                 req.onupgradeneeded = e => Object.values(CONFIG.STORES).forEach(s => !e.target.result.objectStoreNames.contains(s) && e.target.result.createObjectStore(s, { keyPath: 'id' }));
             }),
         };
-
         class YasinMCQsApp {
             constructor() {
                 this.dbName = 'YasinMCQsProDB';
@@ -1204,7 +1185,6 @@
                 this.theme = 'light';
                 this.init();
             }
-
             async init() {
                 await this.initDB();
                 this.loadUserData();
@@ -1213,55 +1193,36 @@
                 this.renderQuestions();
                 this.hideLoading();
             }
-
-
-
-async initDB() {
+            async initDB() {
                 this.db = await dbOps.open();
-
                 const storedVersion = localStorage.getItem('db_version');
                 const needsPopulation = !storedVersion || parseInt(storedVersion) < CONFIG.DB_VERSION;
-
                 if (needsPopulation) {
-                    // Show a clear message to the user during the one-time setup
                     document.getElementById('loading').style.display = 'flex';
                     const loadingText = document.querySelector('.loading h2');
                     loadingText.textContent = 'Setting up for first use, please wait...';
-                    
                     const questions = await (await fetch(CONFIG.DATA_URL)).json();
-                    
-                    // --- This is the corrected, more robust transaction logic ---
                     const tx = this.db.transaction(CONFIG.STORES.QUESTIONS, 'readwrite');
                     const store = tx.objectStore(CONFIG.STORES.QUESTIONS);
-                    
                     await new Promise(resolve => {
                         store.clear().onsuccess = resolve;
                     });
-                    
                     questions.forEach(q => store.put(q));
-                    
-                    // The key change: Wait for the transaction to fully complete
                     await new Promise(resolve => {
                         tx.oncomplete = () => {
                             console.log("Database population complete and committed.");
-                            // Now that it's truly finished, set the success flags
                             this.questions = questions;
                             localStorage.setItem('db_version', CONFIG.DB_VERSION);
-                            localStorage.setItem('total_questions', questions.length); // Also good to save this
+                            localStorage.setItem('total_questions', questions.length);
                             resolve();
                         };
                     });
-
                 } else {
-                    // This part for subsequent loads is fine
                     const existingQuestions = await new Promise(r => this.db.transaction(CONFIG.STORES.QUESTIONS).objectStore(CONFIG.STORES.QUESTIONS).getAll().onsuccess = e => r(e.target.result));
                     this.questions = existingQuestions;
                 }
             }
-
-
             loadUserData() {
-                // Add this line to restore collapse state
                 const isCollapsed = localStorage.getItem('statsCollapsed') === 'true';
                 if (isCollapsed) {
                     setTimeout(() => {
@@ -1269,68 +1230,50 @@ async initDB() {
                         document.getElementById('collapsibleStats').classList.add('collapsed');
                     }, 100);
                 }
-
                 const savedAnswers = localStorage.getItem('userAnswers');
                 if (savedAnswers) {
                     this.userAnswers = new Map(JSON.parse(savedAnswers));
                 }
-
                 const savedBookmarks = localStorage.getItem('bookmarks');
                 if (savedBookmarks) {
                     this.bookmarks = new Set(JSON.parse(savedBookmarks));
                 }
-
-                // Add these lines
                 this.currentPage = parseInt(localStorage.getItem('currentPage') || '1');
                 this.currentFilter = localStorage.getItem('currentFilter') || 'all';
-
                 this.studyStreak = parseInt(localStorage.getItem('studyStreak') || '0');
                 this.theme = localStorage.getItem('theme') || 'light';
-
                 if (this.theme === 'dark') {
                     document.body.setAttribute('data-theme', 'dark');
                 }
             }
-
             setupEventListeners() {
-                // Add these lines in setupEventListeners() method after existing listeners
                 document.getElementById('collapseToggle').addEventListener('click', () => {
                     const btn = document.getElementById('collapseToggle');
                     const section = document.getElementById('collapsibleStats');
-
                     btn.classList.toggle('collapsed');
                     section.classList.toggle('collapsed');
-
                     localStorage.setItem('statsCollapsed', section.classList.contains('collapsed'));
                 });
-
                 document.getElementById('resetProgress').addEventListener('click', () => {
                     if (confirm('Are you sure you want to reset all progress? This cannot be undone.')) {
-                        // Clear all data
                         this.userAnswers.clear();
                         this.bookmarks.clear();
                         this.studyStreak = 0;
-
-                        // Clear localStorage
                         localStorage.removeItem('userAnswers');
                         localStorage.removeItem('bookmarks');
                         localStorage.removeItem('studyStreak');
                         localStorage.removeItem('currentPage');
                         localStorage.removeItem('currentFilter');
                         localStorage.removeItem('lastStudyDate');
-
-                        // Clear IndexedDB
                         const tx = this.db.transaction(['userAnswers', 'bookmarks'], 'readwrite');
                         tx.objectStore('userAnswers').clear();
                         tx.objectStore('bookmarks').clear();
-
                         this.updateStats();
                         this.renderQuestions();
                         this.hideModal('statsModal');
                         this.showToast('All progress reset successfully!', 'success');
                     }
                 });
-
                 document.getElementById('exportStats').addEventListener('click', () => {
                     const stats = {
                         totalQuestions: this.questions.length,
@@ -1340,7 +1283,6 @@ async initDB() {
                         bookmarks: Array.from(this.bookmarks),
                         exportDate: new Date().toISOString()
                     };
-
                     const blob = new Blob([JSON.stringify(stats, null, 2)], { type: 'application/json' });
                     const url = URL.createObjectURL(blob);
                     const a = document.createElement('a');
@@ -1348,50 +1290,39 @@ async initDB() {
                     a.download = `YasinMCQs-stats-${new Date().toISOString().split('T')[0]}.json`;
                     a.click();
                     URL.revokeObjectURL(url);
-
                     this.showToast('Stats exported successfully!', 'success');
                 });
-
                 document.getElementById('closeStats').addEventListener('click', () => {
                     this.hideModal('statsModal');
                 });
-
                 document.getElementById('finishQuiz').addEventListener('click', () => {
                     this.hideModal('quizResultModal');
                 });
-
                 document.getElementById('reviewAnswers').addEventListener('click', () => {
                     this.hideModal('quizResultModal');
                     this.showToast('Review mode activated', 'info');
                 });
-
                 document.getElementById('retakeQuiz').addEventListener('click', () => {
                     this.hideModal('quizResultModal');
                     this.showModal('quizModal');
                 });
-
                 document.getElementById('searchInput').addEventListener('input', (e) => {
                     this.searchQuery = e.target.value.toLowerCase();
                     this.currentPage = 1;
                     this.renderQuestions();
                 });
-
                 document.getElementById('themeToggle').addEventListener('click', () => {
                     this.toggleTheme();
                 });
-
                 document.getElementById('startQuiz').addEventListener('click', () => {
                     this.showModal('quizModal');
                 });
-
                 document.getElementById('showStats').addEventListener('click', () => {
                     this.showDetailedStats();
                 });
-
                 document.getElementById('scrollToTop').addEventListener('click', () => {
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                 });
-
                 document.querySelectorAll('.filter-btn').forEach(btn => {
                     btn.addEventListener('click', (e) => {
                         document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
@@ -1401,12 +1332,10 @@ async initDB() {
                         this.renderQuestions();
                     });
                 });
-
                 document.querySelectorAll('.quiz-type-btn').forEach(btn => {
                     btn.addEventListener('click', (e) => {
                         const type = e.target.dataset.type;
                         const count = e.target.dataset.count;
-
                         if (type === 'custom') {
                             document.getElementById('quizSettings').style.display = 'block';
                         } else {
@@ -1414,22 +1343,18 @@ async initDB() {
                         }
                     });
                 });
-
                 document.getElementById('confirmQuiz').addEventListener('click', () => {
                     const count = parseInt(document.getElementById('customCount').value);
                     this.startQuiz(count);
                 });
-
                 document.getElementById('cancelQuiz').addEventListener('click', () => {
                     this.hideModal('quizModal');
                 });
-
                 document.addEventListener('click', (e) => {
                     if (e.target.classList.contains('modal')) {
                         this.hideModal(e.target.id);
                     }
                 });
-
                 window.addEventListener('scroll', () => {
                     const scrollTop = window.pageYOffset;
                     const scrollBtn = document.getElementById('scrollToTop');
@@ -1442,19 +1367,16 @@ async initDB() {
                     }
                 });
             }
-
             renderQuestions() {
                 const container = document.getElementById('questionsContainer');
                 const filteredQuestions = this.getFilteredQuestions();
                 const startIndex = (this.currentPage - 1) * this.questionsPerPage;
                 const endIndex = startIndex + this.questionsPerPage;
                 const pageQuestions = filteredQuestions.slice(startIndex, endIndex);
-
                 container.innerHTML = pageQuestions.map(q => this.createQuestionHTML(q)).join('');
                 this.renderPagination(filteredQuestions.length);
                 this.attachQuestionListeners();
             }
-
             getFilteredQuestions() {
                 return this.questions.filter(q => {
                     const matchesSearch = q.question.toLowerCase().includes(this.searchQuery) ||
@@ -1462,7 +1384,6 @@ async initDB() {
                             const optText = typeof opt === 'object' ? opt.text : opt;
                             return optText && optText.toLowerCase().includes(this.searchQuery);
                         });
-
                     const matchesFilter = () => {
                         switch (this.currentFilter) {
                             case 'all': return true;
@@ -1480,25 +1401,18 @@ async initDB() {
                             default: return true;
                         }
                     };
-
                     return matchesSearch && matchesFilter();
                 });
             }
-
             createQuestionHTML(question) {
                 const userAnswer = this.userAnswers.get(question.id);
                 const isBookmarked = this.bookmarks.has(question.id);
-
-                // Find correct answer index from options
                 const correctIndex = question.options.findIndex(opt => opt.correct === true);
-
-                // Filter out invalid options
                 const validOptions = question.options.filter(opt =>
                     opt.text &&
                     !opt.text.includes('----') &&
                     !opt.text.toLowerCase().includes('mudassar')
                 );
-
                 return `
         <div class="question-card" data-id="${question.id}">
             <div class="question-header">
@@ -1511,9 +1425,7 @@ async initDB() {
                     </button>
                 </div>
             </div>
-            
             <h3 class="question-text">${question.question}</h3>
-            
             <div class="options-grid">
                 ${validOptions.map((option, index) => {
                     const originalIndex = question.options.indexOf(option);
@@ -1534,7 +1446,6 @@ async initDB() {
                     `;
                 }).join('')}
             </div>
-            
             ${userAnswer ? `
                 <div class="explanation">
                     <div class="explanation-title">
@@ -1549,7 +1460,6 @@ async initDB() {
         </div>
     `;
             }
-
             getDifficultyDots(difficulty) {
                 const levels = { easy: 1, medium: 2, hard: 3 };
                 const level = levels[difficulty] || 1;
@@ -1557,20 +1467,17 @@ async initDB() {
                     `<div class="difficulty-dot ${i < level ? 'active' : ''}"></div>`
                 ).join('');
             }
-
             attachQuestionListeners() {
                 document.querySelectorAll('.option').forEach(option => {
                     option.addEventListener('click', (e) => {
                         const questionCard = e.target.closest('.question-card');
                         const questionId = parseInt(questionCard.dataset.id);
                         const optionIndex = parseInt(e.target.dataset.index);
-
                         if (!this.userAnswers.has(questionId)) {
                             this.handleAnswer(questionId, optionIndex);
                         }
                     });
                 });
-
                 document.querySelectorAll('.bookmark-btn').forEach(btn => {
                     btn.addEventListener('click', (e) => {
                         e.preventDefault();
@@ -1584,33 +1491,26 @@ async initDB() {
                     });
                 });
             }
-
             handleAnswer(questionId, selectedIndex) {
                 const question = this.questions.find(q => q.id === questionId);
                 if (!question) return;
-
                 const selectedOption = question.options[selectedIndex];
                 const isCorrect = selectedOption && selectedOption.correct === true;
-
                 this.userAnswers.set(questionId, {
                     selectedIndex,
                     correct: isCorrect,
                     timestamp: Date.now()
                 });
-
                 this.saveUserData();
                 this.updateStats();
                 this.renderQuestions();
                 this.showToast(isCorrect ? 'Correct! 🎉' : 'Incorrect 😞', isCorrect ? 'success' : 'error');
-
                 if (isCorrect) {
                     this.updateStreak();
                 }
             }
-
             toggleBookmark(questionId) {
                 if (!questionId) return;
-
                 if (this.bookmarks.has(questionId)) {
                     this.bookmarks.delete(questionId);
                     this.showToast('Bookmark removed', 'info');
@@ -1620,94 +1520,73 @@ async initDB() {
                 }
                 this.saveUserData();
             }
-
-
             updateStats() {
                 const total = this.questions.length;
                 const answered = this.userAnswers.size;
                 const correct = Array.from(this.userAnswers.values()).filter(a => a.correct).length;
                 const accuracy = answered > 0 ? Math.round((correct / answered) * 100) : 0;
-
                 document.getElementById('totalQuestions').textContent = total;
                 document.getElementById('answeredQuestions').textContent = answered;
                 document.getElementById('correctAnswers').textContent = correct;
                 document.getElementById('accuracy').textContent = accuracy + '%';
                 document.getElementById('studyStreak').textContent = this.studyStreak;
-
                 const progress = answered > 0 ? (answered / total) * 100 : 0;
                 document.getElementById('overallProgress').style.width = progress + '%';
             }
-
             updateStreak() {
                 const today = new Date().toDateString();
                 const lastStudy = localStorage.getItem('lastStudyDate');
-
                 if (lastStudy !== today) {
                     this.studyStreak++;
                     localStorage.setItem('lastStudyDate', today);
                     localStorage.setItem('studyStreak', this.studyStreak.toString());
-
                     if (this.studyStreak % 5 === 0) {
                         this.showToast(`🔥 Amazing! ${this.studyStreak} day streak!`, 'success');
                     }
                 }
             }
-
             renderPagination(totalQuestions) {
                 const totalPages = Math.ceil(totalQuestions / this.questionsPerPage);
                 const pagination = document.getElementById('pagination');
-
                 if (totalPages <= 1) {
                     pagination.innerHTML = '';
                     return;
                 }
-
                 let paginationHTML = '';
-
                 for (let i = 1; i <= totalPages; i++) {
                     paginationHTML += `
                         <button class="page-btn ${i === this.currentPage ? 'active' : ''}" 
                                 onclick="app.goToPage(${i})">${i}</button>
                     `;
                 }
-
                 pagination.innerHTML = paginationHTML;
             }
-
             goToPage(page) {
                 this.currentPage = page;
-                this.saveUserData(); // Add this line
+                this.saveUserData();
                 this.renderQuestions();
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             }
-
-
             startQuiz(questionCount) {
                 this.hideModal('quizModal');
-                const availableQuestions = this.questions.slice(); // Use all questions for quiz
-
+                const availableQuestions = this.questions.slice();
                 if (availableQuestions.length < questionCount) {
                     questionCount = availableQuestions.length;
                 }
-
                 this.quizQuestions = this.shuffleArray(availableQuestions).slice(0, questionCount);
                 this.quizAnswers = [];
                 this.quizMode = true;
                 this.quizStartTime = Date.now();
-
                 this.showToast('Quiz started! Good luck! 🍀', 'success');
                 this.renderQuizQuestion(0);
             }
-
             renderQuizQuestion(index) {
                 if (index >= this.quizQuestions.length) {
                     this.finishQuiz();
                     return;
                 }
-
                 const question = this.quizQuestions[index];
                 const container = document.getElementById('questionsContainer');
-
                 container.innerHTML = `
                     <div class="quiz-container">
                         <div class="quiz-progress">
@@ -1719,10 +1598,8 @@ async initDB() {
                         ${this.createQuestionHTML(question)}
                     </div>
                 `;
-
                 this.attachQuizListeners(index);
             }
-
             attachQuizListeners(currentIndex) {
                 document.querySelectorAll('.option').forEach(option => {
                     option.addEventListener('click', (e) => {
@@ -1730,16 +1607,12 @@ async initDB() {
                         const question = this.quizQuestions[currentIndex];
                         const selectedOption = question.options[selectedIndex];
                         const isCorrect = selectedOption && selectedOption.correct === true;
-
                         this.quizAnswers.push({
                             questionId: question.id,
                             selectedIndex,
                             correct: isCorrect
                         });
-
                         e.target.classList.add(isCorrect ? 'correct' : 'incorrect');
-
-                        // Show correct answer if wrong selection
                         if (!isCorrect) {
                             const correctIndex = question.options.findIndex(opt => opt.correct === true);
                             if (correctIndex !== -1) {
@@ -1749,21 +1622,18 @@ async initDB() {
                                 }
                             }
                         }
-
                         setTimeout(() => {
                             this.renderQuizQuestion(currentIndex + 1);
                         }, 1500);
                     });
                 });
             }
-
             finishQuiz() {
                 this.quizMode = false;
                 const correct = this.quizAnswers.filter(a => a.correct).length;
                 const total = this.quizAnswers.length;
                 const percentage = Math.round((correct / total) * 100);
                 const timeTaken = Math.round((Date.now() - this.quizStartTime) / 1000);
-
                 this.quizAnswers.forEach(answer => {
                     this.userAnswers.set(answer.questionId, {
                         selectedIndex: answer.selectedIndex,
@@ -1771,17 +1641,14 @@ async initDB() {
                         timestamp: Date.now()
                     });
                 });
-
                 this.saveUserData();
                 this.updateStats();
                 this.renderQuestions();
-
                 document.getElementById('finalScore').textContent = correct;
                 document.getElementById('finalPercentage').textContent = percentage + '%';
                 document.getElementById('quizCorrect').textContent = correct;
                 document.getElementById('quizIncorrect').textContent = total - correct;
                 document.getElementById('quizTime').textContent = this.formatTime(timeTaken);
-
                 const messages = [
                     { min: 90, msg: "Outstanding! You're a quiz master! 🏆" },
                     { min: 80, msg: "Excellent work! Keep it up! 🌟" },
@@ -1789,54 +1656,36 @@ async initDB() {
                     { min: 60, msg: "Good effort! Practice makes perfect! 💪" },
                     { min: 0, msg: "Keep studying! You'll improve! 📚" }
                 ];
-
                 const message = messages.find(m => percentage >= m.min);
                 document.getElementById('resultMessage').textContent = message.msg;
-
                 this.showModal('quizResultModal');
             }
-
             showDetailedStats() {
                 const answered = this.userAnswers.size;
                 const correct = Array.from(this.userAnswers.values()).filter(a => a.correct).length;
                 const avgScore = answered > 0 ? Math.round((correct / answered) * 100) : 0;
-
                 document.getElementById('bestStreak').textContent = this.studyStreak + ' days';
                 document.getElementById('avgScore').textContent = avgScore + '%';
                 document.getElementById('timeSpent').textContent = '0 minutes';
                 document.getElementById('favCategory').textContent = 'General Knowledge';
-
                 this.showModal('statsModal');
-
-                // Draw chart after modal is shown
                 setTimeout(() => {
                     this.drawPerformanceChart();
                 }, 100);
             }
-
-
             drawPerformanceChart() {
                 const canvas = document.getElementById('performanceChart');
                 if (!canvas) return;
-
                 const ctx = canvas.getContext('2d');
                 const width = canvas.width;
                 const height = canvas.height;
-
-                // Clear canvas
                 ctx.clearRect(0, 0, width, height);
-
-                // Sample data
                 const data = [65, 78, 82, 90, 88, 95, 92];
                 const labels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
                 const maxVal = Math.max(...data);
-
-                // Chart settings
                 const padding = 40;
                 const chartWidth = width - padding * 2;
                 const chartHeight = height - padding * 2;
-
-                // Draw grid
                 ctx.strokeStyle = '#e0e0e0';
                 ctx.lineWidth = 1;
                 for (let i = 0; i <= 5; i++) {
@@ -1846,31 +1695,23 @@ async initDB() {
                     ctx.lineTo(width - padding, y);
                     ctx.stroke();
                 }
-
-                // Draw line chart
                 ctx.strokeStyle = '#00D4FF';
                 ctx.lineWidth = 3;
                 ctx.beginPath();
-
                 data.forEach((val, i) => {
                     const x = padding + (chartWidth / (data.length - 1)) * i;
                     const y = padding + chartHeight - (val / maxVal) * chartHeight;
-
                     if (i === 0) {
                         ctx.moveTo(x, y);
                     } else {
                         ctx.lineTo(x, y);
                     }
-
-                    // Draw points
                     ctx.fillStyle = '#00D4FF';
                     ctx.beginPath();
                     ctx.arc(x, y, 4, 0, Math.PI * 2);
                     ctx.fill();
                 });
                 ctx.stroke();
-
-                // Draw labels
                 ctx.fillStyle = '#666';
                 ctx.font = '12px Arial';
                 ctx.textAlign = 'center';
@@ -1879,7 +1720,6 @@ async initDB() {
                     ctx.fillText(label, x, height - 10);
                 });
             }
-
             toggleTheme() {
                 if (this.theme === 'light') {
                     this.theme = 'dark';
@@ -1890,43 +1730,34 @@ async initDB() {
                 }
                 localStorage.setItem('theme', this.theme);
             }
-
             saveUserData() {
                 localStorage.setItem('userAnswers', JSON.stringify(Array.from(this.userAnswers.entries())));
                 localStorage.setItem('bookmarks', JSON.stringify(Array.from(this.bookmarks)));
-                // Add these lines
                 localStorage.setItem('currentPage', this.currentPage.toString());
                 localStorage.setItem('currentFilter', this.currentFilter);
             }
-
-
             showModal(modalId) {
                 document.getElementById(modalId).classList.add('show');
             }
-
             hideModal(modalId) {
                 document.getElementById(modalId).classList.remove('show');
             }
-
             showToast(message, type = 'info') {
                 const toast = document.createElement('div');
                 toast.className = `toast ${type}`;
                 toast.textContent = message;
                 document.body.appendChild(toast);
-
                 setTimeout(() => toast.classList.add('show'), 100);
                 setTimeout(() => {
                     toast.classList.remove('show');
                     setTimeout(() => toast.remove(), 300);
                 }, 3000);
             }
-
             formatTime(seconds) {
                 const minutes = Math.floor(seconds / 60);
                 const secs = seconds % 60;
                 return `${minutes}:${secs.toString().padStart(2, '0')}`;
             }
-
             shuffleArray(array) {
                 const shuffled = [...array];
                 for (let i = shuffled.length - 1; i > 0; i--) {
@@ -1935,7 +1766,6 @@ async initDB() {
                 }
                 return shuffled;
             }
-
             hideLoading() {
                 setTimeout(() => {
                     document.getElementById('loading').style.opacity = '0';
@@ -1945,10 +1775,8 @@ async initDB() {
                 }, 1000);
             }
         }
-
         const app = new YasinMCQsApp();
     </script>
-
     <footer style="text-align: center; padding: 40px 20px; color: #666; background: var(--light); margin-top: 60px;">
         <p>© 2025 YasinMCQs Pro - Advanced Study Platform</p>
         <p>Created by <strong>Yasin Ullah</strong> - Pakistani Developer</p>
