@@ -233,16 +233,16 @@
             margin-top: 5px;
         }
 
-.filters-section {
-    display: flex;
-    gap: 15px;
-    margin-bottom: 30px;
-    flex-wrap: wrap;
-    align-items: center;
-    align-content: space-between;
-    flex-direction: row-reverse;
-    justify-content: center;
-}
+        .filters-section {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            align-items: center;
+            align-content: space-between;
+            flex-direction: row-reverse;
+            justify-content: center;
+        }
 
         .filter-group {
             display: flex;
@@ -690,211 +690,214 @@
                 height: 50px;
             }
         }
+
         .bookmark-btn.active {
-    color: var(--primary);
-    background: rgba(0, 212, 255, 0.1);
-    transform: scale(1.1);
-}
+            color: var(--primary);
+            background: rgba(0, 212, 255, 0.1);
+            transform: scale(1.1);
+        }
 
-.bookmark-btn.active svg {
-    fill: var(--primary);
-}
+        .bookmark-btn.active svg {
+            fill: var(--primary);
+        }
 
-.bookmark-btn:hover {
-    color: var(--primary);
-    transform: translateY(-2px);
-}
+        .bookmark-btn:hover {
+            color: var(--primary);
+            transform: translateY(-2px);
+        }
 
-#collapsibleStats > div.filters-section > div:nth-child(2) {
-    display: none !important;
-}
-#collapsibleStats > div.filters-section > div:nth-child(3) {
-    display: none !important;
-}
-.collapse-btn {
-    position: relative;
-    transition: var(--transition);
-}
+        #collapsibleStats>div.filters-section>div:nth-child(2) {
+            display: none !important;
+        }
 
-.collapse-btn.collapsed {
-    transform: rotate(180deg);
-}
+        #collapsibleStats>div.filters-section>div:nth-child(3) {
+            display: none !important;
+        }
 
-.collapsible-section {
-    transition: all 0.3s ease;
-    overflow: hidden;
-}
+        .collapse-btn {
+            position: relative;
+            transition: var(--transition);
+        }
 
-.collapsible-section.collapsed {
-    max-height: 0;
-    opacity: 0;
-    margin: 0;
-    padding: 0;
-}
-.question-card {
-    background: var(--card-gradient);
-    border-radius: 12px;
-    padding: 20px;
-    box-shadow: var(--shadow-light);
-    transition: var(--transition);
-    position: relative;
-    overflow: hidden;
-}
+        .collapse-btn.collapsed {
+            transform: rotate(180deg);
+        }
 
-.question-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 12px;
-}
+        .collapsible-section {
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
 
-.question-number {
-    background: var(--primary);
-    color: white;
-    padding: 4px 12px;
-    border-radius: 15px;
-    font-weight: bold;
-    font-size: 0.8rem;
-}
+        .collapsible-section.collapsed {
+            max-height: 0;
+            opacity: 0;
+            margin: 0;
+            padding: 0;
+        }
 
-.question-text {
-    font-size: 1rem;
-    font-weight: 600;
-    margin-bottom: 15px;
-    line-height: 1.4;
-}
+        .question-card {
+            background: var(--card-gradient);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: var(--shadow-light);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
 
-.options-grid {
-    display: grid;
-    gap: 8px;
-    margin-bottom: 15px;
-}
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
 
-.option {
-    padding: 12px 15px;
-    border: 2px solid #e0e0e0;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: var(--transition);
-    background: white;
-    position: relative;
-    overflow: hidden;
-    font-size: 0.9rem;
-}
+        .question-number {
+            background: var(--primary);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-weight: bold;
+            font-size: 0.8rem;
+        }
 
-.explanation {
-    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-    padding: 15px;
-    border-radius: 10px;
-    margin-top: 12px;
-    border-left: 3px solid var(--info);
-    opacity: 0;
-    animation: fadeInUp 0.5s forwards;
-    font-size: 0.9rem;
-}
+        .question-text {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
 
-.explanation-title {
-    font-weight: bold;
-    color: var(--info);
-    margin-bottom: 8px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 0.9rem;
-}
+        .options-grid {
+            display: grid;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
 
-.icon-btn {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    border: none;
-    background: var(--light);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: var(--transition);
-    box-shadow: var(--shadow-light);
-}
+        .option {
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: var(--transition);
+            background: white;
+            position: relative;
+            overflow: hidden;
+            font-size: 0.9rem;
+        }
 
-.stats-bar {
-    background: var(--card-gradient);
-    border-radius: var(--border-radius);
-    padding: 20px;
-    margin-bottom: 30px;
-    box-shadow: var(--shadow-light);
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 20px;
-}
+        .explanation {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 12px;
+            border-left: 3px solid var(--info);
+            opacity: 0;
+            animation: fadeInUp 0.5s forwards;
+            font-size: 0.9rem;
+        }
 
-.stat-number {
-    font-size: 2rem;
-    font-weight: bold;
-    background: linear-gradient(45deg, var(--primary), var(--secondary));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    display: block;
-}
+        .explanation-title {
+            font-weight: bold;
+            color: var(--info);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+        }
 
-.stat-label {
-    color: #666;
-    font-size: 0.9rem;
-    margin-top: 3px;
-}
+        .icon-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            background: var(--light);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            box-shadow: var(--shadow-light);
+        }
 
-.progress-section {
-    background: var(--card-gradient);
-    padding: 20px;
-    border-radius: var(--border-radius);
-    margin-bottom: 25px;
-    box-shadow: var(--shadow-light);
-}
+        .stats-bar {
+            background: var(--card-gradient);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow-light);
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+        }
 
-.study-streak {
-    background: linear-gradient(45deg, var(--warning), #f39c12);
-    color: white;
-    padding: 10px 15px;
-    border-radius: var(--border-radius);
-    text-align: center;
-    font-weight: bold;
-    margin: 15px 0;
-    font-size: 0.9rem;
-}
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: block;
+        }
 
-.filters-section {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
-    flex-wrap: wrap;
-    align-items: center;
-}
+        .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+            margin-top: 3px;
+        }
 
-.filter-group {
-    display: flex;
-    gap: 8px;
-    background: var(--light);
-    padding: 8px;
-    border-radius: var(--border-radius);
-    box-shadow: var(--shadow-light);
-}
+        .progress-section {
+            background: var(--card-gradient);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin-bottom: 25px;
+            box-shadow: var(--shadow-light);
+        }
 
-.filter-btn {
-    padding: 6px 12px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: var(--transition);
-    background: transparent;
-    color: var(--dark);
-    font-size: 0.85rem;
-}
+        .study-streak {
+            background: linear-gradient(45deg, var(--warning), #f39c12);
+            color: white;
+            padding: 10px 15px;
+            border-radius: var(--border-radius);
+            text-align: center;
+            font-weight: bold;
+            margin: 15px 0;
+            font-size: 0.9rem;
+        }
 
-.questions-grid {
-    display: grid;
-    gap: 20px;
-}
+        .filters-section {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
 
+        .filter-group {
+            display: flex;
+            gap: 8px;
+            background: var(--light);
+            padding: 8px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-light);
+        }
+
+        .filter-btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+            background: transparent;
+            color: var(--dark);
+            font-size: 0.85rem;
+        }
+
+        .questions-grid {
+            display: grid;
+            gap: 20px;
+        }
     </style>
 </head>
 
@@ -927,12 +930,12 @@
                 </div>
 
                 <div class="nav-actions">
-                
-<button class="icon-btn collapse-btn" id="collapseToggle" title="Hide/Show Stats">
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/>
-    </svg>
-</button>
+
+                    <button class="icon-btn collapse-btn" id="collapseToggle" title="Hide/Show Stats">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
+                        </svg>
+                    </button>
 
                     <button class="icon-btn" id="themeToggle" title="Toggle Theme">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
@@ -961,75 +964,75 @@
     <main class="main-content">
         <div class="container">
             <div class="collapsible-section" id="collapsibleStats">
-            <div class="stats-bar" id="statsBar">
-                <div class="stat-item">
-                    <span class="stat-number" id="totalQuestions">0</span>
-                    <div class="stat-label">Total Questions</div>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number" id="answeredQuestions">0</span>
-                    <div class="stat-label">Answered</div>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number" id="correctAnswers">0</span>
-                    <div class="stat-label">Correct</div>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number" id="accuracy">0%</span>
-                    <div class="stat-label">Accuracy</div>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number" id="studyStreak">0</span>
-                    <div class="stat-label">Day Streak</div>
-                </div>
-            </div>
-
-            <div class="study-streak" id="streakBanner">
-                🔥 Amazing! You're on a 5-day study streak! Keep it up!
-            </div>
-
-            <div class="progress-section">
-                <h3>Overall Progress</h3>
-                <div class="progress-bar">
-                    <div class="progress-fill" id="overallProgress" style="width: 0%"></div>
-                </div>
-                <div class="achievement-badges" id="achievementBadges">
-                    <div class="badge gold">
-                        <span>🏆</span>
-                        Quiz Master
+                <div class="stats-bar" id="statsBar">
+                    <div class="stat-item">
+                        <span class="stat-number" id="totalQuestions">0</span>
+                        <div class="stat-label">Total Questions</div>
                     </div>
-                    <div class="badge silver">
-                        <span>⭐</span>
-                        Fast Learner
+                    <div class="stat-item">
+                        <span class="stat-number" id="answeredQuestions">0</span>
+                        <div class="stat-label">Answered</div>
                     </div>
-                    <div class="badge bronze">
-                        <span>🎯</span>
-                        Accuracy Expert
+                    <div class="stat-item">
+                        <span class="stat-number" id="correctAnswers">0</span>
+                        <div class="stat-label">Correct</div>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="accuracy">0%</span>
+                        <div class="stat-label">Accuracy</div>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="studyStreak">0</span>
+                        <div class="stat-label">Day Streak</div>
                     </div>
                 </div>
-            </div>
 
-            <div class="filters-section">
-                <div class="filter-group">
-                    <button class="filter-btn active" data-filter="all">All Questions</button>
-                    <button class="filter-btn" data-filter="unanswered">Unanswered</button>
-                    <button class="filter-btn" data-filter="correct">Correct</button>
-                    <button class="filter-btn" data-filter="incorrect">Incorrect</button>
-                    <button class="filter-btn" data-filter="bookmarked">Bookmarked</button>
+                <div class="study-streak" id="streakBanner">
+                    🔥 Amazing! You're on a 5-day study streak! Keep it up!
                 </div>
-                <div class="filter-group">
-                    <button class="filter-btn" data-difficulty="easy">Easy</button>
-                    <button class="filter-btn" data-difficulty="medium">Medium</button>
-                    <button class="filter-btn" data-difficulty="hard">Hard</button>
+
+                <div class="progress-section">
+                    <h3>Overall Progress</h3>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="overallProgress" style="width: 0%"></div>
+                    </div>
+                    <div class="achievement-badges" id="achievementBadges">
+                        <div class="badge gold">
+                            <span>🏆</span>
+                            Quiz Master
+                        </div>
+                        <div class="badge silver">
+                            <span>⭐</span>
+                            Fast Learner
+                        </div>
+                        <div class="badge bronze">
+                            <span>🎯</span>
+                            Accuracy Expert
+                        </div>
+                    </div>
                 </div>
-                <div class="filter-group">
-                    <button class="filter-btn" data-category="general">General Knowledge</button>
-                    <button class="filter-btn" data-category="science">Science</button>
-                    <button class="filter-btn" data-category="history">History</button>
-                    <button class="filter-btn" data-category="math">Mathematics</button>
+
+                <div class="filters-section">
+                    <div class="filter-group">
+                        <button class="filter-btn active" data-filter="all">All Questions</button>
+                        <button class="filter-btn" data-filter="unanswered">Unanswered</button>
+                        <button class="filter-btn" data-filter="correct">Correct</button>
+                        <button class="filter-btn" data-filter="incorrect">Incorrect</button>
+                        <button class="filter-btn" data-filter="bookmarked">Bookmarked</button>
+                    </div>
+                    <div class="filter-group">
+                        <button class="filter-btn" data-difficulty="easy">Easy</button>
+                        <button class="filter-btn" data-difficulty="medium">Medium</button>
+                        <button class="filter-btn" data-difficulty="hard">Hard</button>
+                    </div>
+                    <div class="filter-group">
+                        <button class="filter-btn" data-category="general">General Knowledge</button>
+                        <button class="filter-btn" data-category="science">Science</button>
+                        <button class="filter-btn" data-category="history">History</button>
+                        <button class="filter-btn" data-category="math">Mathematics</button>
+                    </div>
                 </div>
             </div>
-</div>
             <div class="questions-grid" id="questionsContainer">
                 <!-- Questions will be loaded here -->
             </div>
@@ -1204,7 +1207,6 @@
 
             async init() {
                 await this.initDB();
-                await this.loadSampleData();
                 this.loadUserData();
                 this.setupEventListeners();
                 this.updateStats();
@@ -1214,42 +1216,59 @@
 
 
 
-            async initDB() {
+async initDB() {
                 this.db = await dbOps.open();
 
                 const storedVersion = localStorage.getItem('db_version');
                 const needsPopulation = !storedVersion || parseInt(storedVersion) < CONFIG.DB_VERSION;
 
                 if (needsPopulation) {
+                    // Show a clear message to the user during the one-time setup
+                    document.getElementById('loading').style.display = 'flex';
+                    const loadingText = document.querySelector('.loading h2');
+                    loadingText.textContent = 'Setting up for first use, please wait...';
+                    
                     const questions = await (await fetch(CONFIG.DATA_URL)).json();
+                    
+                    // --- This is the corrected, more robust transaction logic ---
                     const tx = this.db.transaction(CONFIG.STORES.QUESTIONS, 'readwrite');
-                    await Promise.all([
-                        new Promise(r => tx.objectStore(CONFIG.STORES.QUESTIONS).clear().onsuccess = r),
-                        ...questions.map(q => new Promise(r => tx.objectStore(CONFIG.STORES.QUESTIONS).put(q).onsuccess = r))
-                    ]);
-                    this.questions = questions;
-                    localStorage.setItem('db_version', CONFIG.DB_VERSION);
+                    const store = tx.objectStore(CONFIG.STORES.QUESTIONS);
+                    
+                    await new Promise(resolve => {
+                        store.clear().onsuccess = resolve;
+                    });
+                    
+                    questions.forEach(q => store.put(q));
+                    
+                    // The key change: Wait for the transaction to fully complete
+                    await new Promise(resolve => {
+                        tx.oncomplete = () => {
+                            console.log("Database population complete and committed.");
+                            // Now that it's truly finished, set the success flags
+                            this.questions = questions;
+                            localStorage.setItem('db_version', CONFIG.DB_VERSION);
+                            localStorage.setItem('total_questions', questions.length); // Also good to save this
+                            resolve();
+                        };
+                    });
+
                 } else {
+                    // This part for subsequent loads is fine
                     const existingQuestions = await new Promise(r => this.db.transaction(CONFIG.STORES.QUESTIONS).objectStore(CONFIG.STORES.QUESTIONS).getAll().onsuccess = e => r(e.target.result));
-                    this.questions = existingQuestions.length > 0 ? existingQuestions : await this.loadFallbackData();
+                    this.questions = existingQuestions;
                 }
             }
 
 
-            async loadSampleData() {
-                // This method is now handled by initDB and dbOps.populate
-                // Remove the existing hardcoded data loading
-            }
-
             loadUserData() {
                 // Add this line to restore collapse state
-const isCollapsed = localStorage.getItem('statsCollapsed') === 'true';
-if (isCollapsed) {
-    setTimeout(() => {
-        document.getElementById('collapseToggle').classList.add('collapsed');
-        document.getElementById('collapsibleStats').classList.add('collapsed');
-    }, 100);
-}
+                const isCollapsed = localStorage.getItem('statsCollapsed') === 'true';
+                if (isCollapsed) {
+                    setTimeout(() => {
+                        document.getElementById('collapseToggle').classList.add('collapsed');
+                        document.getElementById('collapsibleStats').classList.add('collapsed');
+                    }, 100);
+                }
 
                 const savedAnswers = localStorage.getItem('userAnswers');
                 if (savedAnswers) {
@@ -1275,81 +1294,81 @@ if (isCollapsed) {
 
             setupEventListeners() {
                 // Add these lines in setupEventListeners() method after existing listeners
-document.getElementById('collapseToggle').addEventListener('click', () => {
-    const btn = document.getElementById('collapseToggle');
-    const section = document.getElementById('collapsibleStats');
-    
-    btn.classList.toggle('collapsed');
-    section.classList.toggle('collapsed');
-    
-    localStorage.setItem('statsCollapsed', section.classList.contains('collapsed'));
-});
+                document.getElementById('collapseToggle').addEventListener('click', () => {
+                    const btn = document.getElementById('collapseToggle');
+                    const section = document.getElementById('collapsibleStats');
 
-document.getElementById('resetProgress').addEventListener('click', () => {
-    if (confirm('Are you sure you want to reset all progress? This cannot be undone.')) {
-        // Clear all data
-        this.userAnswers.clear();
-        this.bookmarks.clear();
-        this.studyStreak = 0;
-        
-        // Clear localStorage
-        localStorage.removeItem('userAnswers');
-        localStorage.removeItem('bookmarks');
-        localStorage.removeItem('studyStreak');
-        localStorage.removeItem('currentPage');
-        localStorage.removeItem('currentFilter');
-        localStorage.removeItem('lastStudyDate');
-        
-        // Clear IndexedDB
-        const tx = this.db.transaction(['userAnswers', 'bookmarks'], 'readwrite');
-        tx.objectStore('userAnswers').clear();
-        tx.objectStore('bookmarks').clear();
-        
-        this.updateStats();
-        this.renderQuestions();
-        this.hideModal('statsModal');
-        this.showToast('All progress reset successfully!', 'success');
-    }
-});
+                    btn.classList.toggle('collapsed');
+                    section.classList.toggle('collapsed');
 
-document.getElementById('exportStats').addEventListener('click', () => {
-    const stats = {
-        totalQuestions: this.questions.length,
-        answeredQuestions: this.userAnswers.size,
-        correctAnswers: Array.from(this.userAnswers.values()).filter(a => a.correct).length,
-        studyStreak: this.studyStreak,
-        bookmarks: Array.from(this.bookmarks),
-        exportDate: new Date().toISOString()
-    };
-    
-    const blob = new Blob([JSON.stringify(stats, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `YasinMCQs-stats-${new Date().toISOString().split('T')[0]}.json`;
-    a.click();
-    URL.revokeObjectURL(url);
-    
-    this.showToast('Stats exported successfully!', 'success');
-});
+                    localStorage.setItem('statsCollapsed', section.classList.contains('collapsed'));
+                });
 
-document.getElementById('closeStats').addEventListener('click', () => {
-    this.hideModal('statsModal');
-});
+                document.getElementById('resetProgress').addEventListener('click', () => {
+                    if (confirm('Are you sure you want to reset all progress? This cannot be undone.')) {
+                        // Clear all data
+                        this.userAnswers.clear();
+                        this.bookmarks.clear();
+                        this.studyStreak = 0;
 
-document.getElementById('finishQuiz').addEventListener('click', () => {
-    this.hideModal('quizResultModal');
-});
+                        // Clear localStorage
+                        localStorage.removeItem('userAnswers');
+                        localStorage.removeItem('bookmarks');
+                        localStorage.removeItem('studyStreak');
+                        localStorage.removeItem('currentPage');
+                        localStorage.removeItem('currentFilter');
+                        localStorage.removeItem('lastStudyDate');
 
-document.getElementById('reviewAnswers').addEventListener('click', () => {
-    this.hideModal('quizResultModal');
-    this.showToast('Review mode activated', 'info');
-});
+                        // Clear IndexedDB
+                        const tx = this.db.transaction(['userAnswers', 'bookmarks'], 'readwrite');
+                        tx.objectStore('userAnswers').clear();
+                        tx.objectStore('bookmarks').clear();
 
-document.getElementById('retakeQuiz').addEventListener('click', () => {
-    this.hideModal('quizResultModal');
-    this.showModal('quizModal');
-});
+                        this.updateStats();
+                        this.renderQuestions();
+                        this.hideModal('statsModal');
+                        this.showToast('All progress reset successfully!', 'success');
+                    }
+                });
+
+                document.getElementById('exportStats').addEventListener('click', () => {
+                    const stats = {
+                        totalQuestions: this.questions.length,
+                        answeredQuestions: this.userAnswers.size,
+                        correctAnswers: Array.from(this.userAnswers.values()).filter(a => a.correct).length,
+                        studyStreak: this.studyStreak,
+                        bookmarks: Array.from(this.bookmarks),
+                        exportDate: new Date().toISOString()
+                    };
+
+                    const blob = new Blob([JSON.stringify(stats, null, 2)], { type: 'application/json' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `YasinMCQs-stats-${new Date().toISOString().split('T')[0]}.json`;
+                    a.click();
+                    URL.revokeObjectURL(url);
+
+                    this.showToast('Stats exported successfully!', 'success');
+                });
+
+                document.getElementById('closeStats').addEventListener('click', () => {
+                    this.hideModal('statsModal');
+                });
+
+                document.getElementById('finishQuiz').addEventListener('click', () => {
+                    this.hideModal('quizResultModal');
+                });
+
+                document.getElementById('reviewAnswers').addEventListener('click', () => {
+                    this.hideModal('quizResultModal');
+                    this.showToast('Review mode activated', 'info');
+                });
+
+                document.getElementById('retakeQuiz').addEventListener('click', () => {
+                    this.hideModal('quizResultModal');
+                    this.showModal('quizModal');
+                });
 
                 document.getElementById('searchInput').addEventListener('input', (e) => {
                     this.searchQuery = e.target.value.toLowerCase();
@@ -1436,35 +1455,35 @@ document.getElementById('retakeQuiz').addEventListener('click', () => {
                 this.attachQuestionListeners();
             }
 
-getFilteredQuestions() {
-    return this.questions.filter(q => {
-        const matchesSearch = q.question.toLowerCase().includes(this.searchQuery) ||
-                            q.options.some(opt => {
-                                const optText = typeof opt === 'object' ? opt.text : opt;
-                                return optText && optText.toLowerCase().includes(this.searchQuery);
-                            });
-        
-        const matchesFilter = () => {
-            switch (this.currentFilter) {
-                case 'all': return true;
-                case 'unanswered': return !this.userAnswers.has(q.id);
-                case 'correct': return this.userAnswers.has(q.id) && this.userAnswers.get(q.id).correct;
-                case 'incorrect': return this.userAnswers.has(q.id) && !this.userAnswers.get(q.id).correct;
-                case 'bookmarked': return this.bookmarks.has(q.id);
-                case 'easy':
-                case 'medium':
-                case 'hard': return q.difficulty === this.currentFilter;
-                case 'general':
-                case 'science':
-                case 'history':
-                case 'math': return q.category === this.currentFilter;
-                default: return true;
-            }
-        };
+            getFilteredQuestions() {
+                return this.questions.filter(q => {
+                    const matchesSearch = q.question.toLowerCase().includes(this.searchQuery) ||
+                        q.options.some(opt => {
+                            const optText = typeof opt === 'object' ? opt.text : opt;
+                            return optText && optText.toLowerCase().includes(this.searchQuery);
+                        });
 
-        return matchesSearch && matchesFilter();
-    });
-}
+                    const matchesFilter = () => {
+                        switch (this.currentFilter) {
+                            case 'all': return true;
+                            case 'unanswered': return !this.userAnswers.has(q.id);
+                            case 'correct': return this.userAnswers.has(q.id) && this.userAnswers.get(q.id).correct;
+                            case 'incorrect': return this.userAnswers.has(q.id) && !this.userAnswers.get(q.id).correct;
+                            case 'bookmarked': return this.bookmarks.has(q.id);
+                            case 'easy':
+                            case 'medium':
+                            case 'hard': return q.difficulty === this.currentFilter;
+                            case 'general':
+                            case 'science':
+                            case 'history':
+                            case 'math': return q.category === this.currentFilter;
+                            default: return true;
+                        }
+                    };
+
+                    return matchesSearch && matchesFilter();
+                });
+            }
 
             createQuestionHTML(question) {
                 const userAnswer = this.userAnswers.get(question.id);
@@ -1539,32 +1558,32 @@ getFilteredQuestions() {
                 ).join('');
             }
 
-attachQuestionListeners() {
-    document.querySelectorAll('.option').forEach(option => {
-        option.addEventListener('click', (e) => {
-            const questionCard = e.target.closest('.question-card');
-            const questionId = parseInt(questionCard.dataset.id);
-            const optionIndex = parseInt(e.target.dataset.index);
-            
-            if (!this.userAnswers.has(questionId)) {
-                this.handleAnswer(questionId, optionIndex);
-            }
-        });
-    });
+            attachQuestionListeners() {
+                document.querySelectorAll('.option').forEach(option => {
+                    option.addEventListener('click', (e) => {
+                        const questionCard = e.target.closest('.question-card');
+                        const questionId = parseInt(questionCard.dataset.id);
+                        const optionIndex = parseInt(e.target.dataset.index);
 
-    document.querySelectorAll('.bookmark-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            const questionCard = e.target.closest('.question-card');
-            if (questionCard) {
-                const questionId = parseInt(questionCard.dataset.id);
-                this.toggleBookmark(questionId);
-                btn.classList.toggle('active');
+                        if (!this.userAnswers.has(questionId)) {
+                            this.handleAnswer(questionId, optionIndex);
+                        }
+                    });
+                });
+
+                document.querySelectorAll('.bookmark-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        const questionCard = e.target.closest('.question-card');
+                        if (questionCard) {
+                            const questionId = parseInt(questionCard.dataset.id);
+                            this.toggleBookmark(questionId);
+                            btn.classList.toggle('active');
+                        }
+                    });
+                });
             }
-        });
-    });
-}
 
             handleAnswer(questionId, selectedIndex) {
                 const question = this.questions.find(q => q.id === questionId);
@@ -1589,18 +1608,18 @@ attachQuestionListeners() {
                 }
             }
 
-toggleBookmark(questionId) {
-    if (!questionId) return;
-    
-    if (this.bookmarks.has(questionId)) {
-        this.bookmarks.delete(questionId);
-        this.showToast('Bookmark removed', 'info');
-    } else {
-        this.bookmarks.add(questionId);
-        this.showToast('Bookmark added', 'success');
-    }
-    this.saveUserData();
-}
+            toggleBookmark(questionId) {
+                if (!questionId) return;
+
+                if (this.bookmarks.has(questionId)) {
+                    this.bookmarks.delete(questionId);
+                    this.showToast('Bookmark removed', 'info');
+                } else {
+                    this.bookmarks.add(questionId);
+                    this.showToast('Bookmark added', 'success');
+                }
+                this.saveUserData();
+            }
 
 
             updateStats() {
@@ -1663,22 +1682,22 @@ toggleBookmark(questionId) {
             }
 
 
-startQuiz(questionCount) {
-    this.hideModal('quizModal');
-    const availableQuestions = this.questions.slice(); // Use all questions for quiz
-    
-    if (availableQuestions.length < questionCount) {
-        questionCount = availableQuestions.length;
-    }
+            startQuiz(questionCount) {
+                this.hideModal('quizModal');
+                const availableQuestions = this.questions.slice(); // Use all questions for quiz
 
-    this.quizQuestions = this.shuffleArray(availableQuestions).slice(0, questionCount);
-    this.quizAnswers = [];
-    this.quizMode = true;
-    this.quizStartTime = Date.now();
-    
-    this.showToast('Quiz started! Good luck! 🍀', 'success');
-    this.renderQuizQuestion(0);
-}
+                if (availableQuestions.length < questionCount) {
+                    questionCount = availableQuestions.length;
+                }
+
+                this.quizQuestions = this.shuffleArray(availableQuestions).slice(0, questionCount);
+                this.quizAnswers = [];
+                this.quizMode = true;
+                this.quizStartTime = Date.now();
+
+                this.showToast('Quiz started! Good luck! 🍀', 'success');
+                this.renderQuizQuestion(0);
+            }
 
             renderQuizQuestion(index) {
                 if (index >= this.quizQuestions.length) {
@@ -1704,39 +1723,39 @@ startQuiz(questionCount) {
                 this.attachQuizListeners(index);
             }
 
-attachQuizListeners(currentIndex) {
-    document.querySelectorAll('.option').forEach(option => {
-        option.addEventListener('click', (e) => {
-            const selectedIndex = parseInt(e.target.dataset.index);
-            const question = this.quizQuestions[currentIndex];
-            const selectedOption = question.options[selectedIndex];
-            const isCorrect = selectedOption && selectedOption.correct === true;
-            
-            this.quizAnswers.push({
-                questionId: question.id,
-                selectedIndex,
-                correct: isCorrect
-            });
+            attachQuizListeners(currentIndex) {
+                document.querySelectorAll('.option').forEach(option => {
+                    option.addEventListener('click', (e) => {
+                        const selectedIndex = parseInt(e.target.dataset.index);
+                        const question = this.quizQuestions[currentIndex];
+                        const selectedOption = question.options[selectedIndex];
+                        const isCorrect = selectedOption && selectedOption.correct === true;
 
-            e.target.classList.add(isCorrect ? 'correct' : 'incorrect');
-            
-            // Show correct answer if wrong selection
-            if (!isCorrect) {
-                const correctIndex = question.options.findIndex(opt => opt.correct === true);
-                if (correctIndex !== -1) {
-                    const correctOption = document.querySelector(`[data-index="${correctIndex}"]`);
-                    if (correctOption) {
-                        correctOption.classList.add('correct');
-                    }
-                }
+                        this.quizAnswers.push({
+                            questionId: question.id,
+                            selectedIndex,
+                            correct: isCorrect
+                        });
+
+                        e.target.classList.add(isCorrect ? 'correct' : 'incorrect');
+
+                        // Show correct answer if wrong selection
+                        if (!isCorrect) {
+                            const correctIndex = question.options.findIndex(opt => opt.correct === true);
+                            if (correctIndex !== -1) {
+                                const correctOption = document.querySelector(`[data-index="${correctIndex}"]`);
+                                if (correctOption) {
+                                    correctOption.classList.add('correct');
+                                }
+                            }
+                        }
+
+                        setTimeout(() => {
+                            this.renderQuizQuestion(currentIndex + 1);
+                        }, 1500);
+                    });
+                });
             }
-
-            setTimeout(() => {
-                this.renderQuizQuestion(currentIndex + 1);
-            }, 1500);
-        });
-    });
-}
 
             finishQuiz() {
                 this.quizMode = false;
@@ -1777,89 +1796,89 @@ attachQuizListeners(currentIndex) {
                 this.showModal('quizResultModal');
             }
 
-showDetailedStats() {
-    const answered = this.userAnswers.size;
-    const correct = Array.from(this.userAnswers.values()).filter(a => a.correct).length;
-    const avgScore = answered > 0 ? Math.round((correct / answered) * 100) : 0;
+            showDetailedStats() {
+                const answered = this.userAnswers.size;
+                const correct = Array.from(this.userAnswers.values()).filter(a => a.correct).length;
+                const avgScore = answered > 0 ? Math.round((correct / answered) * 100) : 0;
 
-    document.getElementById('bestStreak').textContent = this.studyStreak + ' days';
-    document.getElementById('avgScore').textContent = avgScore + '%';
-    document.getElementById('timeSpent').textContent = '0 minutes';
-    document.getElementById('favCategory').textContent = 'General Knowledge';
+                document.getElementById('bestStreak').textContent = this.studyStreak + ' days';
+                document.getElementById('avgScore').textContent = avgScore + '%';
+                document.getElementById('timeSpent').textContent = '0 minutes';
+                document.getElementById('favCategory').textContent = 'General Knowledge';
 
-    this.showModal('statsModal');
-    
-    // Draw chart after modal is shown
-    setTimeout(() => {
-        this.drawPerformanceChart();
-    }, 100);
-}
+                this.showModal('statsModal');
+
+                // Draw chart after modal is shown
+                setTimeout(() => {
+                    this.drawPerformanceChart();
+                }, 100);
+            }
 
 
-drawPerformanceChart() {
-    const canvas = document.getElementById('performanceChart');
-    if (!canvas) return;
-    
-    const ctx = canvas.getContext('2d');
-    const width = canvas.width;
-    const height = canvas.height;
-    
-    // Clear canvas
-    ctx.clearRect(0, 0, width, height);
-    
-    // Sample data
-    const data = [65, 78, 82, 90, 88, 95, 92];
-    const labels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-    const maxVal = Math.max(...data);
-    
-    // Chart settings
-    const padding = 40;
-    const chartWidth = width - padding * 2;
-    const chartHeight = height - padding * 2;
-    
-    // Draw grid
-    ctx.strokeStyle = '#e0e0e0';
-    ctx.lineWidth = 1;
-    for (let i = 0; i <= 5; i++) {
-        const y = padding + (chartHeight / 5) * i;
-        ctx.beginPath();
-        ctx.moveTo(padding, y);
-        ctx.lineTo(width - padding, y);
-        ctx.stroke();
-    }
-    
-    // Draw line chart
-    ctx.strokeStyle = '#00D4FF';
-    ctx.lineWidth = 3;
-    ctx.beginPath();
-    
-    data.forEach((val, i) => {
-        const x = padding + (chartWidth / (data.length - 1)) * i;
-        const y = padding + chartHeight - (val / maxVal) * chartHeight;
-        
-        if (i === 0) {
-            ctx.moveTo(x, y);
-        } else {
-            ctx.lineTo(x, y);
-        }
-        
-        // Draw points
-        ctx.fillStyle = '#00D4FF';
-        ctx.beginPath();
-        ctx.arc(x, y, 4, 0, Math.PI * 2);
-        ctx.fill();
-    });
-    ctx.stroke();
-    
-    // Draw labels
-    ctx.fillStyle = '#666';
-    ctx.font = '12px Arial';
-    ctx.textAlign = 'center';
-    labels.forEach((label, i) => {
-        const x = padding + (chartWidth / (data.length - 1)) * i;
-        ctx.fillText(label, x, height - 10);
-    });
-}
+            drawPerformanceChart() {
+                const canvas = document.getElementById('performanceChart');
+                if (!canvas) return;
+
+                const ctx = canvas.getContext('2d');
+                const width = canvas.width;
+                const height = canvas.height;
+
+                // Clear canvas
+                ctx.clearRect(0, 0, width, height);
+
+                // Sample data
+                const data = [65, 78, 82, 90, 88, 95, 92];
+                const labels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+                const maxVal = Math.max(...data);
+
+                // Chart settings
+                const padding = 40;
+                const chartWidth = width - padding * 2;
+                const chartHeight = height - padding * 2;
+
+                // Draw grid
+                ctx.strokeStyle = '#e0e0e0';
+                ctx.lineWidth = 1;
+                for (let i = 0; i <= 5; i++) {
+                    const y = padding + (chartHeight / 5) * i;
+                    ctx.beginPath();
+                    ctx.moveTo(padding, y);
+                    ctx.lineTo(width - padding, y);
+                    ctx.stroke();
+                }
+
+                // Draw line chart
+                ctx.strokeStyle = '#00D4FF';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+
+                data.forEach((val, i) => {
+                    const x = padding + (chartWidth / (data.length - 1)) * i;
+                    const y = padding + chartHeight - (val / maxVal) * chartHeight;
+
+                    if (i === 0) {
+                        ctx.moveTo(x, y);
+                    } else {
+                        ctx.lineTo(x, y);
+                    }
+
+                    // Draw points
+                    ctx.fillStyle = '#00D4FF';
+                    ctx.beginPath();
+                    ctx.arc(x, y, 4, 0, Math.PI * 2);
+                    ctx.fill();
+                });
+                ctx.stroke();
+
+                // Draw labels
+                ctx.fillStyle = '#666';
+                ctx.font = '12px Arial';
+                ctx.textAlign = 'center';
+                labels.forEach((label, i) => {
+                    const x = padding + (chartWidth / (data.length - 1)) * i;
+                    ctx.fillText(label, x, height - 10);
+                });
+            }
 
             toggleTheme() {
                 if (this.theme === 'light') {
