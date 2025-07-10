@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>YasinMCQs Pro - Advanced Study Platform</title>
@@ -1087,36 +1088,134 @@
         </div>
     </div>
     <div class="modal" id="statsModal">
-        <div class="modal-content">
-            <h2>Detailed Statistics</h2>
-            <div class="performance-chart">
-                <canvas id="performanceChart" width="400" height="200"></canvas>
-            </div>
-            <div class="stats-details">
-                <div class="stat-row">
-                    <span>Best Streak:</span>
-                    <span id="bestStreak">0 days</span>
-                </div>
-                <div class="stat-row">
-                    <span>Average Score:</span>
-                    <span id="avgScore">0%</span>
-                </div>
-                <div class="stat-row">
-                    <span>Time Spent:</span>
-                    <span id="timeSpent">0 minutes</span>
-                </div>
-                <div class="stat-row">
-                    <span>Favorite Category:</span>
-                    <span id="favCategory">-</span>
+        <div class="modal-content" style="max-width: 900px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h2>Detailed Statistics</h2>
+                <div class="filter-group">
+                    <select id="statsTimeFilter" class="filter-btn" style="padding: 8px 12px; appearance: none;">
+                        <option value="all">All Time</option>
+                        <option value="30">Last 30 Days</option>
+                        <option value="7">Last 7 Days</option>
+                    </select>
                 </div>
             </div>
-            <div class="modal-actions">
+            <div id="statsDataContainer"
+                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
+                <div class="stats-overview-section">
+                    <h3>Overview</h3>
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <span class="stat-number" id="statsAvgScore">0%</span>
+                            <div class="stat-label">Average Score</div>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" id="statsAnswered">0</span>
+                            <div class="stat-label">Answered</div>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" id="statsBestStreak">0</span>
+                            <div class="stat-label">Best Streak</div>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" id="statsTimeSpent">0m</span>
+                            <div class="stat-label">Total Time (Est.)</div>
+                        </div>
+                    </div>
+                    <h3>Performance by Difficulty</h3>
+                    <div class="performance-chart">
+                        <canvas id="difficultyChart"></canvas>
+                    </div>
+                </div>
+                <div class="stats-breakdown-section">
+                    <h3>Performance by Category</h3>
+                    <div class="performance-chart" style="margin-bottom: 20px;">
+                        <canvas id="categoryChart"></canvas>
+                    </div>
+                    <h3>Category Breakdown</h3>
+                    <div class="stats-table-container">
+                        <table class="stats-table">
+                            <thead>
+                                <tr>
+                                    <th>Category</th>
+                                    <th>Answered</th>
+                                    <th>Accuracy</th>
+                                </tr>
+                            </thead>
+                            <tbody id="categoryStatsBody">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div id="noStatsMessage" style="text-align: center; padding: 40px; display: none;">
+                <h3>No Data Available</h3>
+                <p>Answer some questions to see your statistics.</p>
+            </div>
+            <div class="modal-actions" style="margin-top: 20px; border-top: 1px solid #e0e0e0; padding-top: 20px;">
                 <button class="btn btn-danger" id="resetProgress">Reset All Progress</button>
                 <button class="btn btn-primary" id="exportStats">Export Stats</button>
                 <button class="btn btn-secondary" id="closeStats">Close</button>
             </div>
         </div>
     </div>
+    <style>
+        .stats-table-container {
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+        }
+
+        .stats-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .stats-table th,
+        .stats-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .stats-table th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+        }
+
+        .stats-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        #statsModal .stat-item {
+            text-align: left;
+        }
+
+        #statsModal .stat-number {
+            font-size: 1.8rem;
+        }
+
+        #statsModal .stat-label {
+            font-size: 0.85rem;
+        }
+
+        [data-theme="dark"] .stats-table th {
+            background-color: #2a2a2a;
+        }
+
+        [data-theme="dark"] .stats-table-container,
+        [data-theme="dark"] .stats-table th,
+        [data-theme="dark"] .stats-table td {
+            border-color: #444;
+        }
+    </style>
     <div class="modal" id="quizResultModal">
         <div class="modal-content">
             <h2>Quiz Complete!</h2>
@@ -1184,6 +1283,8 @@
                 this.quizTimer = null;
                 this.studyStreak = 0;
                 this.theme = 'light';
+                this.categoryChart = null;
+                this.difficultyChart = null;
                 this.init();
             }
             async init() {
@@ -1248,13 +1349,10 @@
                 }
             }
             setupEventListeners() {
-                                // --- Replace your old pagination listener with this one ---
                 document.getElementById('pagination').addEventListener('click', (e) => {
-                    // Check if a page button was clicked (and not a disabled one)
                     const targetButton = e.target.closest('button[data-page]');
                     if (targetButton && !targetButton.disabled) {
                         const page = parseInt(targetButton.dataset.page);
-                        // Call the app's internal method to change the page
                         this.goToPage(page);
                     }
                 });
@@ -1284,6 +1382,9 @@
                         this.hideModal('statsModal');
                         this.showToast('All progress reset successfully!', 'success');
                     }
+                });
+                document.getElementById('statsTimeFilter').addEventListener('change', (e) => {
+                    this.updateDetailedStats(e.target.value);
                 });
                 document.getElementById('exportStats').addEventListener('click', () => {
                     const stats = {
@@ -1377,7 +1478,6 @@
                         scrollBtn.style.transform = 'translateY(100px)';
                     }
                 });
-
             }
             renderQuestions() {
                 const container = document.getElementById('questionsContainer');
@@ -1561,55 +1661,38 @@
                 const totalPages = Math.ceil(totalQuestions / this.questionsPerPage);
                 const pagination = document.getElementById('pagination');
                 const currentPage = this.currentPage;
-
-                // Clear previous pagination and stop if not needed
                 pagination.innerHTML = '';
                 if (totalPages <= 1) {
                     return;
                 }
-
                 let paginationHTML = [];
-                const contextRange = 2; // How many pages to show around the current one
-
-                // 1. "Previous" Button
+                const contextRange = 2;
                 paginationHTML.push(
                     `<button class="page-btn" data-page="${currentPage - 1}" ${currentPage === 1 ? 'disabled' : ''}>«</button>`
                 );
-
-                // 2. Page Number Buttons with smart logic
                 let lastPage = 0;
                 for (let i = 1; i <= totalPages; i++) {
-                    // Conditions to decide if a page number should be shown
                     const isFirstPage = i === 1;
                     const isLastPage = i === totalPages;
                     const isInContextRange = (i >= currentPage - contextRange && i <= currentPage + contextRange);
-
                     if (isFirstPage || isLastPage || isInContextRange) {
-                        // If there is a gap between the last shown page and this one, add an ellipsis
                         if (i > lastPage + 1) {
                             paginationHTML.push('<button class="page-btn" disabled>...</button>');
                         }
-                        
-                        // Add the actual page button
                         paginationHTML.push(
                             `<button class="page-btn ${i === currentPage ? 'active' : ''}" data-page="${i}">${i}</button>`
                         );
-                        
                         lastPage = i;
                     }
                 }
-
-                // 3. "Next" Button
                 paginationHTML.push(
                     `<button class="page-btn" data-page="${currentPage + 1}" ${currentPage === totalPages ? 'disabled' : ''}>»</button>`
                 );
-
-                // Render all buttons at once
                 pagination.innerHTML = paginationHTML.join('');
             }
             goToPage(page) {
                 this.currentPage = page;
-                this.saveUserData(); 
+                this.saveUserData();
                 this.renderQuestions();
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             }
@@ -1718,6 +1801,123 @@
                 setTimeout(() => {
                     this.drawPerformanceChart();
                 }, 100);
+            }
+            showDetailedStats() {
+                this.updateDetailedStats('all');
+                this.showModal('statsModal');
+            }
+            updateDetailedStats(timeFilter) {
+                const now = Date.now();
+                const cutoff = timeFilter === 'all' ? 0 : now - (parseInt(timeFilter) * 24 * 60 * 60 * 1000);
+                const answeredEntries = Array.from(this.userAnswers.entries())
+                    .filter(([id, data]) => data.timestamp >= cutoff);
+                const statsDataContainer = document.getElementById('statsDataContainer');
+                const noStatsMessage = document.getElementById('noStatsMessage');
+                if (answeredEntries.length === 0) {
+                    statsDataContainer.style.display = 'none';
+                    noStatsMessage.style.display = 'block';
+                    if (this.categoryChart) this.categoryChart.destroy();
+                    if (this.difficultyChart) this.difficultyChart.destroy();
+                    return;
+                }
+                statsDataContainer.style.display = 'grid';
+                noStatsMessage.style.display = 'none';
+                const stats = {
+                    totalAnswered: answeredEntries.length,
+                    totalCorrect: 0,
+                    categories: {},
+                    difficulties: {}
+                };
+                for (const [id, data] of answeredEntries) {
+                    const question = this.questions.find(q => q.id === id);
+                    if (!question) continue;
+                    if (data.correct) stats.totalCorrect++;
+                    const cat = question.category || 'General';
+                    const diff = question.difficulty || 'medium';
+                    if (!stats.categories[cat]) stats.categories[cat] = { answered: 0, correct: 0 };
+                    stats.categories[cat].answered++;
+                    if (data.correct) stats.categories[cat].correct++;
+                    if (!stats.difficulties[diff]) stats.difficulties[diff] = { answered: 0, correct: 0 };
+                    stats.difficulties[diff].answered++;
+                    if (data.correct) stats.difficulties[diff].correct++;
+                }
+                this.renderStatsOverview(stats);
+                this.renderStatsCharts(stats);
+            }
+            renderStatsOverview(stats) {
+                const avgScore = stats.totalAnswered > 0 ? Math.round((stats.totalCorrect / stats.totalAnswered) * 100) : 0;
+                document.getElementById('statsAvgScore').textContent = `${avgScore}%`;
+                document.getElementById('statsAnswered').textContent = stats.totalAnswered;
+                document.getElementById('statsBestStreak').textContent = this.studyStreak;
+                document.getElementById('statsTimeSpent').textContent = `${Math.round(stats.totalAnswered * 0.5)}m`;
+                const categoryBody = document.getElementById('categoryStatsBody');
+                categoryBody.innerHTML = '';
+                Object.entries(stats.categories).sort((a, b) => b[1].answered - a[1].answered).forEach(([name, data]) => {
+                    const accuracy = data.answered > 0 ? Math.round((data.correct / data.answered) * 100) : 0;
+                    const row = `<tr><td>${name}</td><td>${data.answered}</td><td>${accuracy}%</td></tr>`;
+                    categoryBody.innerHTML += row;
+                });
+            }
+            renderStatsCharts(stats) {
+                const chartColors = {
+                    primary: 'rgba(0, 212, 255, 0.7)',
+                    secondary: 'rgba(255, 107, 107, 0.7)',
+                    success: 'rgba(78, 205, 196, 0.7)',
+                    warning: 'rgba(255, 217, 61, 0.7)',
+                    info: 'rgba(116, 185, 255, 0.7)',
+                };
+                const catCtx = document.getElementById('categoryChart').getContext('2d');
+                const catLabels = Object.keys(stats.categories);
+                const catData = catLabels.map(label => {
+                    const { correct, answered } = stats.categories[label];
+                    return answered > 0 ? Math.round((correct / answered) * 100) : 0;
+                });
+                if (this.categoryChart) this.categoryChart.destroy();
+                this.categoryChart = new Chart(catCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: catLabels,
+                        datasets: [{
+                            label: 'Accuracy %',
+                            data: catData,
+                            backgroundColor: Object.values(chartColors),
+                            borderColor: 'transparent',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true, maintainAspectRatio: false, indexAxis: 'y',
+                        plugins: { legend: { display: false } },
+                        scales: { x: { beginAtZero: true, max: 100 } }
+                    }
+                });
+                const diffCtx = document.getElementById('difficultyChart').getContext('2d');
+                const diffLabels = Object.keys(stats.difficulties);
+                const diffData = diffLabels.map(label => stats.difficulties[label].answered);
+                const backgroundColors = diffLabels.map(label => {
+                    if (label === 'easy') return chartColors.success;
+                    if (label === 'medium') return chartColors.warning;
+                    if (label === 'hard') return chartColors.secondary;
+                    return chartColors.info;
+                });
+                if (this.difficultyChart) this.difficultyChart.destroy();
+                this.difficultyChart = new Chart(diffCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: diffLabels.map(l => `${l.charAt(0).toUpperCase() + l.slice(1)}`),
+                        datasets: [{
+                            label: 'Questions Answered',
+                            data: diffData,
+                            backgroundColor: backgroundColors,
+                            borderColor: document.body.dataset.theme === 'dark' ? '#2a2a2a' : '#fff',
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true, maintainAspectRatio: false,
+                        plugins: { legend: { position: 'top' } }
+                    }
+                });
             }
             drawPerformanceChart() {
                 const canvas = document.getElementById('performanceChart');
