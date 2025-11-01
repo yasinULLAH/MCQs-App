@@ -1,10 +1,11 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>myMCQs Advanced Study App</title>
-    <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>myMCQs Advanced Study App</title>
+<style>
         :root {
             --bg-color: #f0f2f5; --card-bg-color: #ffffff; --text-color: #1d2129;
             --question-color: #050505; --correct-color: #31a24c; --incorrect-color: #fa383e;
@@ -137,52 +138,48 @@
         #reset-btn { background-color: var(--incorrect-color); color: white; border-color: var(--incorrect-color); }
         #reset-btn:hover { background-color: color-mix(in srgb, var(--incorrect-color) 85%, black); }
     </style>
-</head>
+<link href="manifest.json" rel="manifest"/><link href="favicon.ico" rel="icon" type="image/x-icon"/></head>
 <body>
-    <div class="loading-overlay" id="loading-overlay">
-        <div class="spinner"></div>
-        <p>Loading app...</p>
-    </div>
-    
-    <header class="header">
-        <div class="controls">
-            <input type="search" id="search-input" placeholder="Type to search questions...">
-            <button id="stats-btn" class="icon-btn" title="Show Statistics">
-                <svg viewBox="0 0 24 24"><path d="M16,11.78L20.24,4.45L21.97,5.45L16.74,14.5L10.23,10.5L5.45,18.16L4.22,17.15L10.23,8.5L16,11.78Z" /></svg>
-            </button>
-            <button id="theme-toggle-btn" class="icon-btn" title="Toggle Dark/Light Mode">
-                <svg viewBox="0 0 24 24"><path d="M12 2A10 10 0 0 0 2 12A10 10 0 0 0 12 22A10 10 0 0 0 22 12A10 10 0 0 0 12 2M12 4A8 8 0 0 1 20 12A8 8 0 0 1 12 20V4Z" /></svg>
-            </button>
-        </div>
-    </header>
-
-    <main id="mcq-container"></main>
-    <div id="status-bar"></div>
-    <nav id="pagination"></nav>
-
-    <div class="modal" id="stats-modal">
-        <div class="modal-content">
-            <button id="stats-close-btn" class="icon-btn modal-close-btn" title="Close">
-                 <svg viewBox="0 0 24 24"><path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" /></svg>
-            </button>
-            <h2>Your Progress</h2>
-            <div class="stats-grid">
-                <div class="stat-item"><div class="value" id="answered-stat">0</div><div class="label">Answered</div></div>
-                <div class="stat-item"><div class="value correct" id="correct-stat">0</div><div class="label">Correct</div></div>
-                <div class="stat-item"><div class="value incorrect" id="incorrect-stat">0</div><div class="label">Incorrect</div></div>
-                <div class="stat-item"><div class="value" id="accuracy-stat">0%</div><div class="label">Accuracy</div></div>
-            </div>
-            <div class="modal-actions">
-                <button id="export-btn">Export Stats</button>
-                <button id="share-btn">Share Stats</button>
-            </div>
-             <div class="modal-actions">
-                <button id="reset-btn">Reset All Data</button>
-            </div>
-        </div>
-    </div>
-
-    <script>
+<div class="loading-overlay" id="loading-overlay">
+<div class="spinner"></div>
+<p>Loading app...</p>
+</div>
+<header class="header">
+<div class="controls">
+<input id="search-input" placeholder="Type to search questions..." type="search"/>
+<button class="icon-btn" id="stats-btn" title="Show Statistics">
+<svg viewbox="0 0 24 24"><path d="M16,11.78L20.24,4.45L21.97,5.45L16.74,14.5L10.23,10.5L5.45,18.16L4.22,17.15L10.23,8.5L16,11.78Z"></path></svg>
+</button>
+<button class="icon-btn" id="theme-toggle-btn" title="Toggle Dark/Light Mode">
+<svg viewbox="0 0 24 24"><path d="M12 2A10 10 0 0 0 2 12A10 10 0 0 0 12 22A10 10 0 0 0 22 12A10 10 0 0 0 12 2M12 4A8 8 0 0 1 20 12A8 8 0 0 1 12 20V4Z"></path></svg>
+</button>
+</div>
+</header>
+<main id="mcq-container"></main>
+<div id="status-bar"></div>
+<nav id="pagination"></nav>
+<div class="modal" id="stats-modal">
+<div class="modal-content">
+<button class="icon-btn modal-close-btn" id="stats-close-btn" title="Close">
+<svg viewbox="0 0 24 24"><path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z"></path></svg>
+</button>
+<h2>Your Progress</h2>
+<div class="stats-grid">
+<div class="stat-item"><div class="value" id="answered-stat">0</div><div class="label">Answered</div></div>
+<div class="stat-item"><div class="value correct" id="correct-stat">0</div><div class="label">Correct</div></div>
+<div class="stat-item"><div class="value incorrect" id="incorrect-stat">0</div><div class="label">Incorrect</div></div>
+<div class="stat-item"><div class="value" id="accuracy-stat">0%</div><div class="label">Accuracy</div></div>
+</div>
+<div class="modal-actions">
+<button id="export-btn">Export Stats</button>
+<button id="share-btn">Share Stats</button>
+</div>
+<div class="modal-actions">
+<button id="reset-btn">Reset All Data</button>
+</div>
+</div>
+</div>
+<script>
         document.addEventListener('DOMContentLoaded', async () => {
             // --- CONFIGURATION ---
             const DB_NAME = 'myMCQsDB';
@@ -496,5 +493,22 @@ async init() {
             initializeApp();
         });
     </script>
-</body>
+<script type="module">
+  import { Workbox } from 'https://storage.googleapis.com/workbox-cdn/releases/7.0.0/workbox-window.prod.mjs';
+
+  const swUrl = './sw.js';
+  const wb = new Workbox(swUrl);
+
+  wb.addEventListener('waiting', () => {
+    console.log('A new service worker is waiting to activate.');
+    wb.messageSW({ type: 'SKIP_WAITING' });
+  });
+
+  wb.addEventListener('controlling', () => {
+    console.log('The new service worker is now in control. Reloading page for updates...');
+    window.location.reload();
+  });
+
+  wb.register();
+</script></body>
 </html>

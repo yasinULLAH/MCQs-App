@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
 
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PakMCQs Pro Study Platform</title>
-    <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PakMCQs Pro Study Platform</title>
+<style>
         :root {
             --bg-color: #f0f2f5;
             --card-bg-color: #ffffff;
@@ -544,66 +544,59 @@
             }
         }
     </style>
-</head>
-
+<link href="manifest.json" rel="manifest"/><link href="favicon.ico" rel="icon" type="image/x-icon"/></head>
 <body>
-    <!-- Main UI Elements -->
-    <div class="loading-overlay" id="loading-overlay">
-        <div class="spinner"></div>
-        <p>Initializing Platform...</p>
-    </div>
-    <header class="header">
-        <div class="controls">
-            <input type="search" id="search-input" placeholder="Search questions...">
-            <div class="header-actions">
-                <div class="filter-container">
-                    <button id="filter-btn" class="icon-btn" title="Filter Questions (F)"><svg viewBox="0 0 24 24">
-                            <path
-                                d="M14,12V19.88C14.04,20.18 13.94,20.5 13.71,20.71C13.32,21.1 12.69,21.1 12.3,20.71L10.29,18.7C10.06,18.47 9.96,18.16 10,17.88V12H14M17,3H7C6.45,3 6,3.45 6,4V6H18V4C18,3.45 17.55,3 17,3M18,8H6L12,14L18,8Z" />
-                        </svg></button>
-                    <div id="filter-dropdown">
-                        <div class="filter-option" data-filter="all">Show All</div>
-                        <div class="filter-option" data-filter="unanswered">Unanswered</div>
-                        <div class="filter-option" data-filter="bookmarked">Bookmarked</div>
-                        <div class="filter-option" data-filter="correct">Correct</div>
-                        <div class="filter-option" data-filter="incorrect">Incorrect</div>
-                    </div>
-                </div>
-                <button id="quiz-btn" class="icon-btn" title="Start a Quiz (Q)"><svg viewBox="0 0 24 24">
-                        <path
-                            d="M19,19H5V5H19M19,3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3M13.9,15.5H15.5V17H13.9M13.9,7H15.5V14H13.9M8.5,17H12.4V15.5H10.1V14H12.4V12.5H10.1V11H12.4V9.5H8.5V11H10.9V12.5H8.5V14H10.9V15.5H8.5V17Z" />
-                    </svg></button>
-                <button id="stats-btn" class="icon-btn" title="Show Statistics (S)"><svg viewBox="0 0 24 24">
-                        <path
-                            d="M16,11.78L20.24,4.45L21.97,5.45L16.74,14.5L10.23,10.5L5.45,18.16L4.22,17.15L10.23,8.5L16,11.78Z" />
-                    </svg></button>
-                <button id="theme-toggle-btn" class="icon-btn" title="Toggle Theme (T)"><svg viewBox="0 0 24 24">
-                        <path
-                            d="M12 2A10 10 0 0 0 2 12A10 10 0 0 0 12 22A10 10 0 0 0 22 12A10 10 0 0 0 12 2M12 4A8 8 0 0 1 20 12A8 8 0 0 1 12 20V4Z" />
-                    </svg></button>
-            </div>
-        </div>
-    </header>
-    <main id="main-view">
-        <div id="mcq-container"></div>
-        <div id="status-bar"></div>
-        <nav id="pagination"></nav>
-    </main>
-    <div id="quiz-view">
-        <h2 id="quiz-progress-header"></h2>
-        <div id="quiz-mcq-container"></div>
-    </div>
-    <button id="back-to-top-btn" class="icon-btn btn-primary" title="Back to Top"><svg viewBox="0 0 24 24">
-            <path d="M13,20H11V8L5.5,13.5L4.08,12.08L12,4.16L19.92,12.08L18.5,13.5L13,8V20Z" />
-        </svg></button>
-    <div id="toast-container"></div>
-
-    <!-- All Modals -->
-    <div class="modal" id="stats-modal"><!-- Content injected by JS --></div>
-    <div class="modal" id="quiz-setup-modal"><!-- Content injected by JS --></div>
-    <div class="modal" id="quiz-results-modal"><!-- Content injected by JS --></div>
-
-    <script>
+<!-- Main UI Elements -->
+<div class="loading-overlay" id="loading-overlay">
+<div class="spinner"></div>
+<p>Initializing Platform...</p>
+</div>
+<header class="header">
+<div class="controls">
+<input id="search-input" placeholder="Search questions..." type="search"/>
+<div class="header-actions">
+<div class="filter-container">
+<button class="icon-btn" id="filter-btn" title="Filter Questions (F)"><svg viewbox="0 0 24 24">
+<path d="M14,12V19.88C14.04,20.18 13.94,20.5 13.71,20.71C13.32,21.1 12.69,21.1 12.3,20.71L10.29,18.7C10.06,18.47 9.96,18.16 10,17.88V12H14M17,3H7C6.45,3 6,3.45 6,4V6H18V4C18,3.45 17.55,3 17,3M18,8H6L12,14L18,8Z"></path>
+</svg></button>
+<div id="filter-dropdown">
+<div class="filter-option" data-filter="all">Show All</div>
+<div class="filter-option" data-filter="unanswered">Unanswered</div>
+<div class="filter-option" data-filter="bookmarked">Bookmarked</div>
+<div class="filter-option" data-filter="correct">Correct</div>
+<div class="filter-option" data-filter="incorrect">Incorrect</div>
+</div>
+</div>
+<button class="icon-btn" id="quiz-btn" title="Start a Quiz (Q)"><svg viewbox="0 0 24 24">
+<path d="M19,19H5V5H19M19,3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3M13.9,15.5H15.5V17H13.9M13.9,7H15.5V14H13.9M8.5,17H12.4V15.5H10.1V14H12.4V12.5H10.1V11H12.4V9.5H8.5V11H10.9V12.5H8.5V14H10.9V15.5H8.5V17Z"></path>
+</svg></button>
+<button class="icon-btn" id="stats-btn" title="Show Statistics (S)"><svg viewbox="0 0 24 24">
+<path d="M16,11.78L20.24,4.45L21.97,5.45L16.74,14.5L10.23,10.5L5.45,18.16L4.22,17.15L10.23,8.5L16,11.78Z"></path>
+</svg></button>
+<button class="icon-btn" id="theme-toggle-btn" title="Toggle Theme (T)"><svg viewbox="0 0 24 24">
+<path d="M12 2A10 10 0 0 0 2 12A10 10 0 0 0 12 22A10 10 0 0 0 22 12A10 10 0 0 0 12 2M12 4A8 8 0 0 1 20 12A8 8 0 0 1 12 20V4Z"></path>
+</svg></button>
+</div>
+</div>
+</header>
+<main id="main-view">
+<div id="mcq-container"></div>
+<div id="status-bar"></div>
+<nav id="pagination"></nav>
+</main>
+<div id="quiz-view">
+<h2 id="quiz-progress-header"></h2>
+<div id="quiz-mcq-container"></div>
+</div>
+<button class="icon-btn btn-primary" id="back-to-top-btn" title="Back to Top"><svg viewbox="0 0 24 24">
+<path d="M13,20H11V8L5.5,13.5L4.08,12.08L12,4.16L19.92,12.08L18.5,13.5L13,8V20Z"></path>
+</svg></button>
+<div id="toast-container"></div>
+<!-- All Modals -->
+<div class="modal" id="stats-modal"><!-- Content injected by JS --></div>
+<div class="modal" id="quiz-setup-modal"><!-- Content injected by JS --></div>
+<div class="modal" id="quiz-results-modal"><!-- Content injected by JS --></div>
+<script>
         // Inject modal HTML to keep the body clean
         document.getElementById('stats-modal').innerHTML = `<div class="modal-content"><button class="icon-btn modal-close-btn" title="Close"><svg viewBox="0 0 24 24"><path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z"/></svg></button><h2>Your Progress</h2><div class="stats-grid"><div class="stat-item"><div class="value" id="answered-stat">0</div><div class="label">Answered</div></div><div class="stat-item"><div class="value" id="correct-stat" style="color:var(--correct-color)">0</div><div class="label">Correct</div></div><div class="stat-item"><div class="value" id="incorrect-stat" style="color:var(--incorrect-color)">0</div><div class="label">Incorrect</div></div><div class="stat-item"><div class="value" id="accuracy-stat">0%</div><div class="label">Accuracy</div></div></div><div class="modal-actions"><button id="reset-btn" class="btn-danger">Reset All Data</button></div></div>`;
         document.getElementById('quiz-setup-modal').innerHTML = `<div class="modal-content"><button class="icon-btn modal-close-btn" title="Close"><svg viewBox="0 0 24 24"><path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z"/></svg></button><h2>Quiz Setup</h2><p>Select the number of questions for your quiz.</p><div class="modal-actions"><button class="start-quiz-btn btn-primary" data-count="10">10 Questions</button><button class="start-quiz-btn btn-primary" data-count="25">25 Questions</button><button class="start-quiz-btn btn-primary" data-count="50">50 Questions</button></div></div>`;
@@ -928,6 +921,22 @@
             initializeApp();
         });
     </script>
-</body>
+<script type="module">
+  import { Workbox } from 'https://storage.googleapis.com/workbox-cdn/releases/7.0.0/workbox-window.prod.mjs';
 
+  const swUrl = './sw.js';
+  const wb = new Workbox(swUrl);
+
+  wb.addEventListener('waiting', () => {
+    console.log('A new service worker is waiting to activate.');
+    wb.messageSW({ type: 'SKIP_WAITING' });
+  });
+
+  wb.addEventListener('controlling', () => {
+    console.log('The new service worker is now in control. Reloading page for updates...');
+    window.location.reload();
+  });
+
+  wb.register();
+</script></body>
 </html>

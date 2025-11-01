@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
 
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PakMCQs Interactive Study App</title>
-    <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PakMCQs Interactive Study App</title>
+<style>
         :root {
             --bg-color: #f4f7f9;
             --card-bg-color: #ffffff;
@@ -191,24 +191,20 @@
             border: 1px solid rgba(220, 53, 69, 0.5);
         }
     </style>
-</head>
-
+<link href="manifest.json" rel="manifest"/><link href="favicon.ico" rel="icon" type="image/x-icon"/></head>
 <body>
-    <div class="loading-overlay" id="loading-overlay">
-        <p>Loading app...</p>
-    </div>
-
-    <header class="header">
-        <div class="controls">
-            <input type="search" id="search-input" placeholder="Type to search questions...">
-            <button id="theme-toggle-btn" title="Toggle Dark/Light Mode">🌙</button>
-        </div>
-    </header>
-
-    <main id="mcq-container"></main>
-    <div id="status-bar"></div>
-    <nav id="pagination"></nav>
-
+<div class="loading-overlay" id="loading-overlay">
+<p>Loading app...</p>
+</div>
+<header class="header">
+<div class="controls">
+<input id="search-input" placeholder="Type to search questions..." type="search"/>
+<button id="theme-toggle-btn" title="Toggle Dark/Light Mode">🌙</button>
+</div>
+</header>
+<main id="mcq-container"></main>
+<div id="status-bar"></div>
+<nav id="pagination"></nav>
 <script>
     document.addEventListener('DOMContentLoaded', async () => {
         // --- CONFIGURATION ---
@@ -408,6 +404,22 @@
         initializeApp();
     });
 </script>
-</body>
+<script type="module">
+  import { Workbox } from 'https://storage.googleapis.com/workbox-cdn/releases/7.0.0/workbox-window.prod.mjs';
 
+  const swUrl = './sw.js';
+  const wb = new Workbox(swUrl);
+
+  wb.addEventListener('waiting', () => {
+    console.log('A new service worker is waiting to activate.');
+    wb.messageSW({ type: 'SKIP_WAITING' });
+  });
+
+  wb.addEventListener('controlling', () => {
+    console.log('The new service worker is now in control. Reloading page for updates...');
+    window.location.reload();
+  });
+
+  wb.register();
+</script></body>
 </html>

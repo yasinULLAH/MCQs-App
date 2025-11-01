@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
 
+<html lang="en">
 <head>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YasinMCQs Pro - Advanced Study Platform</title>
-    <style>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>YasinMCQs Pro - Advanced Study Platform</title>
+<style>
         :root {
             --primary: #00D4FF;
             --secondary: #FF6B6B;
@@ -901,264 +901,257 @@
             gap: 20px;
         }
     </style>
-</head>
-
+<link href="manifest.json" rel="manifest"/><link href="favicon.ico" rel="icon" type="image/x-icon"/></head>
 <body>
-    <div class="loading" id="loading">
-        <div class="spinner"></div>
-        <h2>Loading YasinMCQs Pro...</h2>
-        <p>Preparing your study session</p>
-    </div>
-    <header class="header">
-        <div class="container">
-            <div class="header-content">
-                <a href="#" class="logo">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 2L2 7v10c0 5.55 3.84 9.739 9 11 5.16-1.261 9-5.45 9-11V7l-10-5z" />
-                    </svg>
+<div class="loading" id="loading">
+<div class="spinner"></div>
+<h2>Loading YasinMCQs Pro...</h2>
+<p>Preparing your study session</p>
+</div>
+<header class="header">
+<div class="container">
+<div class="header-content">
+<a class="logo" href="#">
+<svg fill="currentColor" height="32" viewbox="0 0 24 24" width="32">
+<path d="M12 2L2 7v10c0 5.55 3.84 9.739 9 11 5.16-1.261 9-5.45 9-11V7l-10-5z"></path>
+</svg>
                     YasinMCQs Pro
                 </a>
-                <div class="search-container">
-                    <input type="text" class="search-input" id="searchInput"
-                        placeholder="Search questions, topics, or keywords...">
-                    <button class="search-btn" id="searchBtn">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
-                            <path
-                                d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
-                        </svg>
-                    </button>
-                </div>
-                <div class="nav-actions">
-                    <button class="icon-btn collapse-btn" id="collapseToggle" title="Hide/Show Stats">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
-                        </svg>
-                    </button>
-                    <button class="icon-btn" id="themeToggle" title="Toggle Theme">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                            <path
-                                d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.166a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM17.834 18.894a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 10-1.061 1.06l1.59 1.591zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591z" />
-                        </svg>
-                    </button>
-                    <button class="btn btn-primary" id="startQuiz">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M8 5v14l11-7z" />
-                        </svg>
+<div class="search-container">
+<input class="search-input" id="searchInput" placeholder="Search questions, topics, or keywords..." type="text"/>
+<button class="search-btn" id="searchBtn">
+<svg fill="white" height="20" viewbox="0 0 24 24" width="20">
+<path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+</svg>
+</button>
+</div>
+<div class="nav-actions">
+<button class="icon-btn collapse-btn" id="collapseToggle" title="Hide/Show Stats">
+<svg fill="currentColor" height="24" viewbox="0 0 24 24" width="24">
+<path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"></path>
+</svg>
+</button>
+<button class="icon-btn" id="themeToggle" title="Toggle Theme">
+<svg fill="currentColor" height="24" viewbox="0 0 24 24" width="24">
+<path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.166a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM17.834 18.894a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 10-1.061 1.06l1.59 1.591zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591z"></path>
+</svg>
+</button>
+<button class="btn btn-primary" id="startQuiz">
+<svg fill="currentColor" height="20" viewbox="0 0 24 24" width="20">
+<path d="M8 5v14l11-7z"></path>
+</svg>
                         Start Quiz
                     </button>
-                    <button class="btn btn-outline" id="showStats">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                            <path
-                                d="M22 21v-2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v2h20zM6 17h4v-5H6v5zm6 0h4v-9h-4v9zm6 0h2v-7h-2v7z" />
-                        </svg>
+<button class="btn btn-outline" id="showStats">
+<svg fill="currentColor" height="20" viewbox="0 0 24 24" width="20">
+<path d="M22 21v-2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v2h20zM6 17h4v-5H6v5zm6 0h4v-9h-4v9zm6 0h2v-7h-2v7z"></path>
+</svg>
                         Statistics
                     </button>
-                </div>
-            </div>
-        </div>
-    </header>
-    <main class="main-content">
-        <div class="container">
-            <div class="collapsible-section" id="collapsibleStats">
-                <div class="stats-bar" id="statsBar">
-                    <div class="stat-item">
-                        <span class="stat-number" id="totalQuestions">0</span>
-                        <div class="stat-label">Total Questions</div>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-number" id="answeredQuestions">0</span>
-                        <div class="stat-label">Answered</div>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-number" id="correctAnswers">0</span>
-                        <div class="stat-label">Correct</div>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-number" id="accuracy">0%</span>
-                        <div class="stat-label">Accuracy</div>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-number" id="studyStreak">0</span>
-                        <div class="stat-label">Day Streak</div>
-                    </div>
-                </div>
-                <div class="study-streak" id="streakBanner">
+</div>
+</div>
+</div>
+</header>
+<main class="main-content">
+<div class="container">
+<div class="collapsible-section" id="collapsibleStats">
+<div class="stats-bar" id="statsBar">
+<div class="stat-item">
+<span class="stat-number" id="totalQuestions">0</span>
+<div class="stat-label">Total Questions</div>
+</div>
+<div class="stat-item">
+<span class="stat-number" id="answeredQuestions">0</span>
+<div class="stat-label">Answered</div>
+</div>
+<div class="stat-item">
+<span class="stat-number" id="correctAnswers">0</span>
+<div class="stat-label">Correct</div>
+</div>
+<div class="stat-item">
+<span class="stat-number" id="accuracy">0%</span>
+<div class="stat-label">Accuracy</div>
+</div>
+<div class="stat-item">
+<span class="stat-number" id="studyStreak">0</span>
+<div class="stat-label">Day Streak</div>
+</div>
+</div>
+<div class="study-streak" id="streakBanner">
                     🔥 Amazing! You're on a 5-day study streak! Keep it up!
                 </div>
-                <div class="progress-section">
-                    <h3>Overall Progress</h3>
-                    <div class="progress-bar">
-                        <div class="progress-fill" id="overallProgress" style="width: 0%"></div>
-                    </div>
-                    <div class="achievement-badges" id="achievementBadges">
-                        <div class="badge gold">
-                            <span>🏆</span>
+<div class="progress-section">
+<h3>Overall Progress</h3>
+<div class="progress-bar">
+<div class="progress-fill" id="overallProgress" style="width: 0%"></div>
+</div>
+<div class="achievement-badges" id="achievementBadges">
+<div class="badge gold">
+<span>🏆</span>
                             Quiz Master
                         </div>
-                        <div class="badge silver">
-                            <span>⭐</span>
+<div class="badge silver">
+<span>⭐</span>
                             Fast Learner
                         </div>
-                        <div class="badge bronze">
-                            <span>🎯</span>
+<div class="badge bronze">
+<span>🎯</span>
                             Accuracy Expert
                         </div>
-                    </div>
-                </div>
-                <div class="filters-section">
-                    <div class="filter-group">
-                        <button class="filter-btn active" data-filter="all">All Questions</button>
-                        <button class="filter-btn" data-filter="unanswered">Unanswered</button>
-                        <button class="filter-btn" data-filter="correct">Correct</button>
-                        <button class="filter-btn" data-filter="incorrect">Incorrect</button>
-                        <button class="filter-btn" data-filter="bookmarked">Bookmarked</button>
-                    </div>
-                    <div class="filter-group">
-                        <button class="filter-btn" data-difficulty="easy">Easy</button>
-                        <button class="filter-btn" data-difficulty="medium">Medium</button>
-                        <button class="filter-btn" data-difficulty="hard">Hard</button>
-                    </div>
-                    <div class="filter-group">
-                        <button class="filter-btn" data-category="general">General Knowledge</button>
-                        <button class="filter-btn" data-category="science">Science</button>
-                        <button class="filter-btn" data-category="history">History</button>
-                        <button class="filter-btn" data-category="math">Mathematics</button>
-                    </div>
-                </div>
-            </div>
-            <div class="questions-grid" id="questionsContainer">
-            </div>
-            <div class="pagination" id="pagination">
-            </div>
-        </div>
-    </main>
-    <button class="floating-action" id="scrollToTop" title="Scroll to top">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
-            <path d="M12 6l-6 6h4v6h4v-6h4l-6-6z" />
-        </svg>
-    </button>
-    <div class="modal" id="quizModal">
-        <div class="modal-content">
-            <h2>Start New Quiz</h2>
-            <div class="quiz-container">
-                <div class="quiz-options">
-                    <h3>Select Quiz Type</h3>
-                    <div class="quiz-type-grid">
-                        <button class="btn btn-primary quiz-type-btn" data-type="quick" data-count="10">
-                            <span>⚡</span>
+</div>
+</div>
+<div class="filters-section">
+<div class="filter-group">
+<button class="filter-btn active" data-filter="all">All Questions</button>
+<button class="filter-btn" data-filter="unanswered">Unanswered</button>
+<button class="filter-btn" data-filter="correct">Correct</button>
+<button class="filter-btn" data-filter="incorrect">Incorrect</button>
+<button class="filter-btn" data-filter="bookmarked">Bookmarked</button>
+</div>
+<div class="filter-group">
+<button class="filter-btn" data-difficulty="easy">Easy</button>
+<button class="filter-btn" data-difficulty="medium">Medium</button>
+<button class="filter-btn" data-difficulty="hard">Hard</button>
+</div>
+<div class="filter-group">
+<button class="filter-btn" data-category="general">General Knowledge</button>
+<button class="filter-btn" data-category="science">Science</button>
+<button class="filter-btn" data-category="history">History</button>
+<button class="filter-btn" data-category="math">Mathematics</button>
+</div>
+</div>
+</div>
+<div class="questions-grid" id="questionsContainer">
+</div>
+<div class="pagination" id="pagination">
+</div>
+</div>
+</main>
+<button class="floating-action" id="scrollToTop" title="Scroll to top">
+<svg fill="white" height="24" viewbox="0 0 24 24" width="24">
+<path d="M12 6l-6 6h4v6h4v-6h4l-6-6z"></path>
+</svg>
+</button>
+<div class="modal" id="quizModal">
+<div class="modal-content">
+<h2>Start New Quiz</h2>
+<div class="quiz-container">
+<div class="quiz-options">
+<h3>Select Quiz Type</h3>
+<div class="quiz-type-grid">
+<button class="btn btn-primary quiz-type-btn" data-count="10" data-type="quick">
+<span>⚡</span>
                             Quick Quiz (10 questions)
                         </button>
-                        <button class="btn btn-primary quiz-type-btn" data-type="standard" data-count="25">
-                            <span>📚</span>
+<button class="btn btn-primary quiz-type-btn" data-count="25" data-type="standard">
+<span>📚</span>
                             Standard Quiz (25 questions)
                         </button>
-                        <button class="btn btn-primary quiz-type-btn" data-type="comprehensive" data-count="50">
-                            <span>🎯</span>
+<button class="btn btn-primary quiz-type-btn" data-count="50" data-type="comprehensive">
+<span>🎯</span>
                             Comprehensive Quiz (50 questions)
                         </button>
-                        <button class="btn btn-primary quiz-type-btn" data-type="custom" data-count="custom">
-                            <span>⚙️</span>
+<button class="btn btn-primary quiz-type-btn" data-count="custom" data-type="custom">
+<span>⚙️</span>
                             Custom Quiz
                         </button>
-                    </div>
-                </div>
-                <div class="quiz-settings" id="quizSettings" style="display: none;">
-                    <h3>Quiz Settings</h3>
-                    <label>Number of Questions: <input type="number" id="customCount" min="1" max="100"
-                            value="20"></label>
-                    <label>Time Limit: <select id="timeLimit">
-                            <option value="0">No Limit</option>
-                            <option value="300">5 Minutes</option>
-                            <option value="600">10 Minutes</option>
-                            <option value="1200">20 Minutes</option>
-                            <option value="1800">30 Minutes</option>
-                        </select></label>
-                    <label>Difficulty: <select id="quizDifficulty">
-                            <option value="all">All Levels</option>
-                            <option value="easy">Easy</option>
-                            <option value="medium">Medium</option>
-                            <option value="hard">Hard</option>
-                        </select></label>
-                </div>
-                <div class="quiz-actions">
-                    <button class="btn btn-secondary" id="cancelQuiz">Cancel</button>
-                    <button class="btn btn-primary" id="confirmQuiz">Start Quiz</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="modal" id="statsModal">
-        <div class="modal-content" style="max-width: 900px;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                <h2>Detailed Statistics</h2>
-                <div class="filter-group">
-                    <select id="statsTimeFilter" class="filter-btn" style="padding: 8px 12px; appearance: none;">
-                        <option value="all">All Time</option>
-                        <option value="30">Last 30 Days</option>
-                        <option value="7">Last 7 Days</option>
-                    </select>
-                </div>
-            </div>
-            <div id="statsDataContainer"
-                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
-                <div class="stats-overview-section">
-                    <h3>Overview</h3>
-                    <div class="stats-grid">
-                        <div class="stat-item">
-                            <span class="stat-number" id="statsAvgScore">0%</span>
-                            <div class="stat-label">Average Score</div>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-number" id="statsAnswered">0</span>
-                            <div class="stat-label">Answered</div>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-number" id="statsBestStreak">0</span>
-                            <div class="stat-label">Best Streak</div>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-number" id="statsTimeSpent">0m</span>
-                            <div class="stat-label">Total Time (Est.)</div>
-                        </div>
-                    </div>
-                    <h3>Performance by Difficulty</h3>
-                    <div class="performance-chart">
-                        <canvas id="difficultyChart"></canvas>
-                    </div>
-                </div>
-                <div class="stats-breakdown-section">
-                    <h3>Performance by Category</h3>
-                    <div class="performance-chart" style="margin-bottom: 20px;">
-                        <canvas id="categoryChart"></canvas>
-                    </div>
-                    <h3>Category Breakdown</h3>
-                    <div class="stats-table-container">
-                        <table class="stats-table">
-                            <thead>
-                                <tr>
-                                    <th>Category</th>
-                                    <th>Answered</th>
-                                    <th>Accuracy</th>
-                                </tr>
-                            </thead>
-                            <tbody id="categoryStatsBody">
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            <div id="noStatsMessage" style="text-align: center; padding: 40px; display: none;">
-                <h3>No Data Available</h3>
-                <p>Answer some questions to see your statistics.</p>
-            </div>
-            <div class="modal-actions" style="margin-top: 20px; border-top: 1px solid #e0e0e0; padding-top: 20px;">
-                <button class="btn btn-danger" id="resetProgress">Reset All Progress</button>
-                <button class="btn btn-primary" id="exportStats">Export Stats</button>
-                <button class="btn btn-secondary" id="closeStats">Close</button>
-            </div>
-        </div>
-    </div>
-    <style>
+</div>
+</div>
+<div class="quiz-settings" id="quizSettings" style="display: none;">
+<h3>Quiz Settings</h3>
+<label>Number of Questions: <input id="customCount" max="100" min="1" type="number" value="20"/></label>
+<label>Time Limit: <select id="timeLimit">
+<option value="0">No Limit</option>
+<option value="300">5 Minutes</option>
+<option value="600">10 Minutes</option>
+<option value="1200">20 Minutes</option>
+<option value="1800">30 Minutes</option>
+</select></label>
+<label>Difficulty: <select id="quizDifficulty">
+<option value="all">All Levels</option>
+<option value="easy">Easy</option>
+<option value="medium">Medium</option>
+<option value="hard">Hard</option>
+</select></label>
+</div>
+<div class="quiz-actions">
+<button class="btn btn-secondary" id="cancelQuiz">Cancel</button>
+<button class="btn btn-primary" id="confirmQuiz">Start Quiz</button>
+</div>
+</div>
+</div>
+</div>
+<div class="modal" id="statsModal">
+<div class="modal-content" style="max-width: 900px;">
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+<h2>Detailed Statistics</h2>
+<div class="filter-group">
+<select class="filter-btn" id="statsTimeFilter" style="padding: 8px 12px; appearance: none;">
+<option value="all">All Time</option>
+<option value="30">Last 30 Days</option>
+<option value="7">Last 7 Days</option>
+</select>
+</div>
+</div>
+<div id="statsDataContainer" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
+<div class="stats-overview-section">
+<h3>Overview</h3>
+<div class="stats-grid">
+<div class="stat-item">
+<span class="stat-number" id="statsAvgScore">0%</span>
+<div class="stat-label">Average Score</div>
+</div>
+<div class="stat-item">
+<span class="stat-number" id="statsAnswered">0</span>
+<div class="stat-label">Answered</div>
+</div>
+<div class="stat-item">
+<span class="stat-number" id="statsBestStreak">0</span>
+<div class="stat-label">Best Streak</div>
+</div>
+<div class="stat-item">
+<span class="stat-number" id="statsTimeSpent">0m</span>
+<div class="stat-label">Total Time (Est.)</div>
+</div>
+</div>
+<h3>Performance by Difficulty</h3>
+<div class="performance-chart">
+<canvas id="difficultyChart"></canvas>
+</div>
+</div>
+<div class="stats-breakdown-section">
+<h3>Performance by Category</h3>
+<div class="performance-chart" style="margin-bottom: 20px;">
+<canvas id="categoryChart"></canvas>
+</div>
+<h3>Category Breakdown</h3>
+<div class="stats-table-container">
+<table class="stats-table">
+<thead>
+<tr>
+<th>Category</th>
+<th>Answered</th>
+<th>Accuracy</th>
+</tr>
+</thead>
+<tbody id="categoryStatsBody">
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="noStatsMessage" style="text-align: center; padding: 40px; display: none;">
+<h3>No Data Available</h3>
+<p>Answer some questions to see your statistics.</p>
+</div>
+<div class="modal-actions" style="margin-top: 20px; border-top: 1px solid #e0e0e0; padding-top: 20px;">
+<button class="btn btn-danger" id="resetProgress">Reset All Progress</button>
+<button class="btn btn-primary" id="exportStats">Export Stats</button>
+<button class="btn btn-secondary" id="closeStats">Close</button>
+</div>
+</div>
+</div>
+<style>
         .stats-table-container {
             max-height: 200px;
             overflow-y: auto;
@@ -1216,39 +1209,39 @@
             border-color: #444;
         }
     </style>
-    <div class="modal" id="quizResultModal">
-        <div class="modal-content">
-            <h2>Quiz Complete!</h2>
-            <div class="quiz-results">
-                <div class="result-score">
-                    <span class="score-number" id="finalScore">0</span>
-                    <span class="score-total">/ 10</span>
-                </div>
-                <div class="result-percentage" id="finalPercentage">0%</div>
-                <div class="result-message" id="resultMessage">Great job!</div>
-                <div class="quiz-breakdown">
-                    <div class="breakdown-item">
-                        <span>Correct: </span>
-                        <span id="quizCorrect">0</span>
-                    </div>
-                    <div class="breakdown-item">
-                        <span>Incorrect: </span>
-                        <span id="quizIncorrect">0</span>
-                    </div>
-                    <div class="breakdown-item">
-                        <span>Time Taken: </span>
-                        <span id="quizTime">0:00</span>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-actions">
-                <button class="btn btn-primary" id="reviewAnswers">Review Answers</button>
-                <button class="btn btn-secondary" id="retakeQuiz">Retake Quiz</button>
-                <button class="btn btn-outline" id="finishQuiz">Finish</button>
-            </div>
-        </div>
-    </div>
-    <script>
+<div class="modal" id="quizResultModal">
+<div class="modal-content">
+<h2>Quiz Complete!</h2>
+<div class="quiz-results">
+<div class="result-score">
+<span class="score-number" id="finalScore">0</span>
+<span class="score-total">/ 10</span>
+</div>
+<div class="result-percentage" id="finalPercentage">0%</div>
+<div class="result-message" id="resultMessage">Great job!</div>
+<div class="quiz-breakdown">
+<div class="breakdown-item">
+<span>Correct: </span>
+<span id="quizCorrect">0</span>
+</div>
+<div class="breakdown-item">
+<span>Incorrect: </span>
+<span id="quizIncorrect">0</span>
+</div>
+<div class="breakdown-item">
+<span>Time Taken: </span>
+<span id="quizTime">0:00</span>
+</div>
+</div>
+</div>
+<div class="modal-actions">
+<button class="btn btn-primary" id="reviewAnswers">Review Answers</button>
+<button class="btn btn-secondary" id="retakeQuiz">Retake Quiz</button>
+<button class="btn btn-outline" id="finishQuiz">Finish</button>
+</div>
+</div>
+</div>
+<script>
         const CONFIG = {
             DB_NAME: 'YasinMCQsProDB',
             STORES: { QUESTIONS: 'questions', ANSWERS: 'userAnswers', BOOKMARKS: 'bookmarks', SETTINGS: 'settings' },
@@ -2023,8 +2016,25 @@
         }
         const app = new YasinMCQsApp();
     </script>
-    <footer style="text-align: center; padding: 40px 20px; color: #666; background: var(--light); margin-top: 60px;">
-        <p>© 2025 YasinMCQs Pro - Advanced Study Platform</p>
-        <p>Created by <strong>Yasin Ullah</strong> - Pakistani Developer</p>
-    </footer>
-</body>
+<footer style="text-align: center; padding: 40px 20px; color: #666; background: var(--light); margin-top: 60px;">
+<p>© 2025 YasinMCQs Pro - Advanced Study Platform</p>
+<p>Created by <strong>Yasin Ullah</strong> - Pakistani Developer</p>
+</footer>
+<script type="module">
+  import { Workbox } from 'https://storage.googleapis.com/workbox-cdn/releases/7.0.0/workbox-window.prod.mjs';
+
+  const swUrl = './sw.js';
+  const wb = new Workbox(swUrl);
+
+  wb.addEventListener('waiting', () => {
+    console.log('A new service worker is waiting to activate.');
+    wb.messageSW({ type: 'SKIP_WAITING' });
+  });
+
+  wb.addEventListener('controlling', () => {
+    console.log('The new service worker is now in control. Reloading page for updates...');
+    window.location.reload();
+  });
+
+  wb.register();
+</script></body></html>
