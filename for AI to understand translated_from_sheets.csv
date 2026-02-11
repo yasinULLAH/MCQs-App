@@ -1,0 +1,71 @@
+﻿unique_id,source_text,is_correct,translated_text
+1_question,Who has been appointed as the Special Assistant to the Prime Minister on blockchain and cryptocurrency?,,بلاک چین اور کریپٹو کرنسی پر وزیر اعظم کے معاون خصوصی کے طور پر کس کو مقرر کیا گیا ہے؟
+1_option_0,A. Asad Umar,FALSE,A. اسد عمر
+1_option_1,B. Bilal Bin Saqib,TRUE,B. بلال بن ثاقب
+1_option_2,C. Dr. Shamshad Akhtar,FALSE,C. ڈاکٹر شمشاد اختر
+1_option_3,D. Shaza Fatima Khawaja,FALSE,ڈی شازہ فاطمہ خواجہ
+1_option_4,Mudassar Riaz,FALSE,مدثر ریاض
+1_option_5,-----------------------------,FALSE,------------------------------------------------------------------------
+2_question,Which Gulf country has signed an agreement with US to build the largest artificial intelligence campus outside the United States?,,کس خلیجی ملک نے امریکہ سے باہر سب سے بڑا مصنوعی ذہانت کا کیمپس بنانے کا معاہدہ کیا ہے؟
+2_option_0,A. Saudia Arbia,FALSE,A. سعودیہ عربیہ
+2_option_1,B. UAE,TRUE,B. UAE
+2_option_2,C. Qatar,FALSE,C. قطر
+2_option_3,D. None of these,FALSE,D. ان میں سے کوئی نہیں۔
+2_option_4,Mudassar Riaz,FALSE,مدثر ریاض
+2_option_5,-----------------------------,FALSE,------------------------------------------------------------------------
+3_question,Who is the Current Director General of the newly-established National Cyber Crime Investigation Agency (NCCIA)?,,نئی قائم کردہ نیشنل سائبر کرائم انویسٹی گیشن ایجنسی (NCCIA) کا موجودہ ڈائریکٹر جنرل کون ہے؟
+3_option_0,A. Ahmed Ishaq Jahangir,FALSE,اے احمد اسحاق جہانگیر
+3_option_1,B. Riffat Mukhtar Raja,FALSE,بی رفعت مختار راجہ
+3_option_2,C. Waqar-ud-Din Syed,TRUE,سی وقار الدین سید
+3_option_3,D. None of These,FALSE,D. ان میں سے کوئی نہیں۔
+3_option_4,Areesha Khan,FALSE,اریشہ خان
+3_option_5,-----------------------------,FALSE,------------------------------------------------------------------------
+4_question,Who is the Current IG of National Highways and Motorway Police (NHMP) ?,,نیشنل ہائی ویز اینڈ موٹروے پولیس (NHMP) کا موجودہ IG کون ہے؟
+4_option_0,A. Riffat Mukhtar Raja,FALSE,اے رفعت مختار راجہ
+4_option_1,B. B.A. Nasir,TRUE,B. B.A ناصر
+4_option_2,C. Salman Choudhry,FALSE,سی سلمان چوہدری
+4_option_3,D. None of these,FALSE,D. ان میں سے کوئی نہیں۔
+4_option_4,Bilal,FALSE,بلال
+4_option_5,-----------------------------,FALSE,------------------------------------------------------------------------
+5_question,"When was the National Cyber Crimes Investigation Agency (NCCIA), established by the Government of Pakistan?",,نیشنل سائبر کرائمز انویسٹی گیشن ایجنسی (NCCIA) حکومت پاکستان نے کب قائم کی تھی؟
+5_option_0,A. 23 March 2024,FALSE,A. 23 مارچ 2024
+5_option_1,B. 1 April 2024,FALSE,B. 1 اپریل 2024
+5_option_2,C. 3 May 2024,TRUE,C. 3 مئی 2024
+5_option_3,D. 14 August 2024,FALSE,D. 14 اگست 2024
+5_option_4,Areesha Khan,FALSE,اریشہ خان
+5_option_5,-----------------------------,FALSE,------------------------------------------------------------------------
+6_question,Who is the Current Director General of Federal Investigation Agency (DG FIA)?,,فیڈرل انویسٹی گیشن ایجنسی (ڈی جی ایف آئی اے) کے موجودہ ڈائریکٹر جنرل کون ہیں؟
+6_option_0,A. Abdul Khaliq Shaikh,FALSE,اے عبدالخالق شیخ
+6_option_1,B. Riffat Mukhtar Raja,TRUE,بی رفعت مختار راجہ
+6_option_2,C. Jan Muhammad Butt,FALSE,سی جان محمد بٹ
+6_option_3,D. None of these,FALSE,D. ان میں سے کوئی نہیں۔
+6_option_4,Ashfaque Ali Khoso,FALSE,اشفاق علی کھوسو
+6_option_5,-----------------------------,FALSE,------------------------------------------------------------------------
+7_question,Who is the current IG of New Railways Police?,,نیو ریلوے پولیس کا موجودہ آئی جی کون ہے؟
+7_option_0,A. Muhammad Tahir Rai,TRUE,اے محمد طاہر رائے
+7_option_1,B. Inam Ghani,FALSE,بی انعام غنی
+7_option_2,C. Rao Sardar Ali Khan,FALSE,سی راؤ سردار علی خان
+7_option_3,D. None of these,FALSE,D. ان میں سے کوئی نہیں۔
+7_option_4,Sonaira Sharafat,FALSE,سونیرہ شرافت
+7_option_5,-----------------------------,FALSE,------------------------------------------------------------------------
+8_question,Who is the Current Chairman of ICC?,,آئی سی سی کے موجودہ چیئرمین کون ہیں؟
+8_option_0,A. Jay Shah,TRUE,اے جے شاہ
+8_option_1,B. Shashank Manohar,FALSE,بی ششانک منوہر
+8_option_2,C. Manu Sawhney,FALSE,C. منو ساہنی
+8_option_3,D. None of these,FALSE,D. ان میں سے کوئی نہیں۔
+8_option_4,Kashif Ashraf,FALSE,کاشف اشرف
+8_option_5,-----------------------------,FALSE,------------------------------------------------------------------------
+9_question,What is the Capital of Myanmar (Burma) ?,,میانمار (برما) کا دارالحکومت کیا ہے؟
+9_option_0,A. Yangon,FALSE,اے ینگون
+9_option_1,B. Mandalay,FALSE,B. منڈالے
+9_option_2,C. Sagaing,FALSE,C. Sagaing
+9_option_3,D. Nypyidaw,TRUE,D. Nypyidaw
+9_option_4,Areesha Khan,FALSE,اریشہ خان
+9_option_5,-----------------------------,FALSE,------------------------------------------------------------------------
+10_question,"Which city in Myanmar was most affected, with hospitals overwhelmed by casualties due to earthquake on 28th march 2025?",,"میانمار کا کون سا شہر سب سے زیادہ متاثر ہوا، 28 مارچ 2025 کو آنے والے زلزلے کی وجہ سے ہسپتال متاثرین سے بھر گئے؟"
+10_option_0,A. Yangon,FALSE,اے ینگون
+10_option_1,B. Mandalay,FALSE,B. منڈالے
+10_option_2,C. Naypyidaw,TRUE,C. Naypyidaw
+10_option_3,D. Sagaing,FALSE,D. Sagaing
+10_option_4,Areesha Khan,FALSE,اریشہ خان
+10_option_5,-----------------------------,FALSE,------------------------------------------------------------------------
